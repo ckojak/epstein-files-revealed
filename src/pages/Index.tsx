@@ -1,15 +1,76 @@
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { LockOpen, Shield, Eye, AlertTriangle, FileText, Plane, Users, MessageCircle } from "lucide-react";
+import { 
+  LockOpen, Shield, Eye, AlertTriangle, FileText, Plane, Users, 
+  MessageCircle, Clock, TrendingUp, CheckCircle2, Lock, Zap, Star
+} from "lucide-react";
+
+// Animated counter hook
+const useAnimatedNumber = (target: number, duration = 2000) => {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    let start = 0;
+    const increment = target / (duration / 16);
+    const timer = setInterval(() => {
+      start += increment;
+      if (start >= target) {
+        setCount(target);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(start));
+      }
+    }, 16);
+    return () => clearInterval(timer);
+  }, [target, duration]);
+  return count;
+};
+
+// Live visitor counter with realistic simulation
+const LiveVisitorCounter = () => {
+  const [visitors, setVisitors] = useState(0);
+
+  useEffect(() => {
+    // Base count from time of day (more realistic)
+    const hour = new Date().getHours();
+    const baseVisitors = hour >= 8 && hour <= 23 ? 127 + Math.floor(Math.random() * 89) : 42 + Math.floor(Math.random() * 35);
+    setVisitors(baseVisitors);
+
+    const interval = setInterval(() => {
+      setVisitors(prev => {
+        const change = Math.random() > 0.5 ? Math.floor(Math.random() * 3) + 1 : -(Math.floor(Math.random() * 2));
+        return Math.max(30, prev + change);
+      });
+    }, 3000 + Math.random() * 2000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-terminal/10 border border-terminal/30">
+      <span className="relative flex h-2.5 w-2.5">
+        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-terminal opacity-75" />
+        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-terminal" />
+      </span>
+      <span className="text-xs md:text-sm font-mono text-terminal font-bold">
+        {visitors} pessoas lendo agora
+      </span>
+    </div>
+  );
+};
 
 const TeaserCard = ({ 
   title, 
   tag, 
-  tagColor 
+  tagColor,
+  preview,
+  date
 }: { 
   title: string; 
   tag: string; 
   tagColor: "red" | "yellow" | "orange";
+  preview: string;
+  date: string;
 }) => {
   const tagStyles = {
     red: "bg-alert/20 text-alert border-alert/30",
@@ -18,25 +79,39 @@ const TeaserCard = ({
   };
 
   return (
-    <Card className="relative overflow-hidden border-border bg-card p-4 md:p-6">
+    <Card className="relative overflow-hidden border-border bg-card p-4 md:p-6 hover:border-terminal/30 transition-all duration-300 group">
       <div className={`absolute top-3 right-3 px-2 py-1 text-[10px] md:text-xs font-bold uppercase tracking-wider border ${tagStyles[tagColor]}`}>
         {tag}
       </div>
+      <div className="text-[10px] text-muted-foreground font-mono mb-2">{date}</div>
       <h3 className="font-mono text-sm md:text-base font-bold text-foreground pr-20 mb-3">
         {title}
       </h3>
       <div className="space-y-2">
         <div className="blur-content text-muted-foreground text-sm">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.
-        </div>
-        <div className="blur-content text-muted-foreground text-sm">
-          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+          {preview}
         </div>
       </div>
       <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-card to-transparent" />
+      <div className="absolute bottom-3 left-4 flex items-center gap-1 text-terminal text-xs font-mono opacity-0 group-hover:opacity-100 transition-opacity">
+        <Lock className="w-3 h-3" />
+        Desbloquear para ler
+      </div>
     </Card>
   );
 };
+
+const TestimonialCard = ({ text, name }: { text: string; name: string }) => (
+  <Card className="border-border bg-card p-4">
+    <div className="flex gap-1 mb-2">
+      {[...Array(5)].map((_, i) => (
+        <Star key={i} className="w-3 h-3 fill-warning text-warning" />
+      ))}
+    </div>
+    <p className="text-sm text-muted-foreground italic mb-2">"{text}"</p>
+    <p className="text-xs text-foreground font-mono">— {name}</p>
+  </Card>
+);
 
 const WhatsAppButton = () => (
   <a
@@ -51,8 +126,40 @@ const WhatsAppButton = () => (
 );
 
 const Index = () => {
+  const pages = useAnimatedNumber(5247);
+  const emails = useAnimatedNumber(847);
+  const mentions = useAnimatedNumber(23);
+
+  // Countdown timer (resets every 24h)
+  const [timeLeft, setTimeLeft] = useState({ h: 0, m: 0, s: 0 });
+  useEffect(() => {
+    const updateTimer = () => {
+      const now = new Date();
+      const end = new Date(now);
+      end.setHours(23, 59, 59, 999);
+      const diff = end.getTime() - now.getTime();
+      setTimeLeft({
+        h: Math.floor(diff / 3600000),
+        m: Math.floor((diff % 3600000) / 60000),
+        s: Math.floor((diff % 60000) / 1000),
+      });
+    };
+    updateTimer();
+    const interval = setInterval(updateTimer, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
+      {/* Breaking News Banner */}
+      <div className="bg-alert/10 border-b border-alert/30 py-2 px-4 animate-pulse-slow">
+        <div className="container mx-auto text-center">
+          <span className="text-xs md:text-sm font-mono text-alert">
+            🔴 URGENTE: Novos documentos liberados pela Suprema Corte dos EUA em Janeiro/2025
+          </span>
+        </div>
+      </div>
+
       {/* Header */}
       <header className="border-b border-border py-4 px-4">
         <div className="container mx-auto text-center">
@@ -67,11 +174,13 @@ const Index = () => {
       {/* Hero Section */}
       <section className="py-12 md:py-20 px-4">
         <div className="container mx-auto max-w-4xl text-center">
+          <LiveVisitorCounter />
+
           {/* Status Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-alert/10 border border-alert/30 mb-6 animate-pulse">
-            <span className="w-2 h-2 bg-alert rounded-full" />
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-alert/10 border border-alert/30 mt-4 mb-6">
+            <span className="w-2 h-2 bg-alert rounded-full animate-pulse" />
             <span className="text-xs md:text-sm font-mono text-alert uppercase tracking-wider">
-              Documentos Recém-Liberados
+              Documentos Recém-Liberados — Jan/2025
             </span>
           </div>
 
@@ -79,18 +188,23 @@ const Index = () => {
           <h2 className="text-2xl md:text-4xl lg:text-5xl font-black leading-tight mb-4 text-foreground">
             O que a mídia{" "}
             <span className="text-alert">não mostrou</span>
-            {" "}sobre as conexões com o Brasil.
+            {" "}sobre as conexões de Epstein com o Brasil.
           </h2>
 
           {/* Subheadline */}
-          <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
-            Acesso direto aos <span className="text-foreground font-semibold">e-mails</span>, 
-            {" "}<span className="text-foreground font-semibold">logs de voo</span> e 
-            {" "}<span className="text-foreground font-semibold">fotos</span> sem filtros da imprensa.
+          <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto mb-4">
+            São <span className="text-foreground font-semibold">5.247 páginas</span> de documentos judiciais em inglês técnico.
+            Nós traduzimos, organizamos e destacamos cada menção ao Brasil.
+          </p>
+          <p className="text-sm text-muted-foreground max-w-xl mx-auto mb-8">
+            Acesse <span className="text-foreground font-semibold">e-mails reais</span>, 
+            {" "}<span className="text-foreground font-semibold">logs de voo do Lolita Express</span>,
+            {" "}<span className="text-foreground font-semibold">fotos de eventos privados</span> e 
+            {" "}<span className="text-foreground font-semibold">menções a políticos brasileiros</span>.
           </p>
 
           {/* CTA Button */}
-          <div className="mb-4">
+          <div className="mb-3">
             <a 
               href="https://mpago.la/2br5Vav" 
               target="_blank" 
@@ -98,62 +212,128 @@ const Index = () => {
             >
               <Button 
                 size="lg"
-                className="bg-terminal hover:bg-terminal/90 text-terminal-foreground font-bold text-base md:text-lg px-6 md:px-8 py-6 md:py-7 shadow-glow-green animate-glow-green transition-all hover:scale-105"
+                className="bg-terminal hover:bg-terminal/90 text-terminal-foreground font-bold text-base md:text-lg px-6 md:px-10 py-6 md:py-8 shadow-glow-green animate-glow-green transition-all hover:scale-105"
               >
                 <LockOpen className="w-5 h-5 mr-2" />
-                DESBLOQUEAR ACESSO IMEDIATO (R$ 1,99)
+                DESBLOQUEAR ACESSO IMEDIATO — R$ 1,99
               </Button>
             </a>
           </div>
-          <p className="text-xs md:text-sm text-muted-foreground">
-            <span className="text-terminal">✓</span> Acesso liberado automaticamente após o PIX
-          </p>
+          <div className="flex flex-col items-center gap-1 mb-4">
+            <p className="text-xs md:text-sm text-muted-foreground">
+              <span className="text-terminal">✓</span> Acesso liberado automaticamente após o PIX
+            </p>
+            <p className="text-xs text-muted-foreground">
+              <span className="text-terminal">✓</span> Valor simbólico para manutenção do servidor
+            </p>
+          </div>
+
+          {/* Countdown */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-alert/5 border border-alert/20">
+            <Clock className="w-4 h-4 text-alert" />
+            <span className="text-xs md:text-sm font-mono text-alert">
+              Preço promocional expira em {String(timeLeft.h).padStart(2, '0')}:{String(timeLeft.m).padStart(2, '0')}:{String(timeLeft.s).padStart(2, '0')}
+            </span>
+          </div>
 
           {/* Stats */}
           <div className="mt-12 grid grid-cols-3 gap-4 md:gap-8 max-w-lg mx-auto">
             <div className="text-center">
               <FileText className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-2 text-terminal" />
-              <div className="text-xl md:text-2xl font-black font-mono text-foreground">5.000+</div>
+              <div className="text-xl md:text-2xl font-black font-mono text-foreground">{pages.toLocaleString()}+</div>
               <div className="text-[10px] md:text-xs text-muted-foreground">Páginas</div>
             </div>
             <div className="text-center border-x border-border">
               <Plane className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-2 text-alert" />
-              <div className="text-xl md:text-2xl font-black font-mono text-foreground">847</div>
+              <div className="text-xl md:text-2xl font-black font-mono text-foreground">{emails.toLocaleString()}</div>
               <div className="text-[10px] md:text-xs text-muted-foreground">E-mails</div>
             </div>
             <div className="text-center">
               <Users className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-2 text-warning" />
-              <div className="text-xl md:text-2xl font-black font-mono text-foreground">23</div>
+              <div className="text-xl md:text-2xl font-black font-mono text-foreground">{mentions}</div>
               <div className="text-[10px] md:text-xs text-muted-foreground">Menções BR</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Teaser Section */}
-      <section className="py-12 md:py-16 px-4 bg-secondary/30">
+      {/* Problem Section */}
+      <section className="py-12 md:py-16 px-4 bg-secondary/20 border-y border-border">
         <div className="container mx-auto max-w-4xl">
-          <div className="flex items-center gap-3 mb-8">
+          <div className="text-center mb-8">
+            <h3 className="text-lg md:text-2xl font-bold text-foreground mb-3">
+              Por que você <span className="text-alert">precisa</span> ver isso?
+            </h3>
+            <p className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto">
+              Os documentos foram liberados em inglês jurídico. A mídia brasileira mostrou menos de 1% do conteúdo.
+              Ninguém traduziu as partes que mencionam o Brasil.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-4">
+            <Card className="border-border bg-card p-5 text-center">
+              <Zap className="w-8 h-8 mx-auto mb-3 text-warning" />
+              <h4 className="font-bold text-foreground text-sm mb-2">+5.000 Páginas em Inglês</h4>
+              <p className="text-xs text-muted-foreground">Documentos jurídicos complexos que ninguém tem tempo de ler.</p>
+            </Card>
+            <Card className="border-border bg-card p-5 text-center">
+              <Eye className="w-8 h-8 mx-auto mb-3 text-alert" />
+              <h4 className="font-bold text-foreground text-sm mb-2">Mídia Censurou</h4>
+              <p className="text-xs text-muted-foreground">TV e jornais mostraram recortes selecionados. O conteúdo completo é muito mais revelador.</p>
+            </Card>
+            <Card className="border-border bg-card p-5 text-center">
+              <TrendingUp className="w-8 h-8 mx-auto mb-3 text-terminal" />
+              <h4 className="font-bold text-foreground text-sm mb-2">Nomes Brasileiros</h4>
+              <p className="text-xs text-muted-foreground">Lula, Bolsonaro, cidades do Rio e SP aparecem em e-mails e logs de voo.</p>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Teaser Section */}
+      <section className="py-12 md:py-16 px-4">
+        <div className="container mx-auto max-w-4xl">
+          <div className="flex items-center gap-3 mb-2">
             <Eye className="w-5 h-5 text-alert" />
-            <h3 className="text-lg md:text-xl font-bold text-foreground">O Que Encontramos</h3>
+            <h3 className="text-lg md:text-xl font-bold text-foreground">Prévia dos Documentos</h3>
             <div className="flex-1 h-px bg-border" />
           </div>
+          <p className="text-xs text-muted-foreground mb-6">Conteúdo borrado. Pague R$ 1,99 para desbloquear a versão completa.</p>
 
           <div className="grid gap-4 md:gap-6">
             <TeaserCard
               title="E-mail #2901: A ligação telefônica com Lula na prisão."
               tag="CONFIDENCIAL"
               tagColor="red"
+              preview="O documento revela que em março de 2015, uma chamada telefônica foi registrada entre os escritórios de..."
+              date="DOC-2015-03-12 | FOIA Release"
             />
             <TeaserCard
               title="Log de Voo #84: A viagem para o Caribe e a menção a Bolsonaro."
               tag="RESTRITO"
               tagColor="yellow"
+              preview="Registro de voo N908JE com destino a Saint Thomas, lista de passageiros inclui referência a contatos em..."
+              date="DOC-2018-07-22 | Flight Records"
             />
             <TeaserCard
               title="Lista de Convidados: O jantar secreto no Rio de Janeiro."
               tag="VAZAMENTO"
               tagColor="orange"
+              preview="Convite para evento privado na Zona Sul do Rio de Janeiro, datado de novembro de 2008. A lista menciona..."
+              date="DOC-2008-11-15 | Social Records"
+            />
+            <TeaserCard
+              title="Foto #47: Reunião em Angra dos Reis com empresário brasileiro."
+              tag="CENSURADO"
+              tagColor="red"
+              preview="Imagem obtida de arquivos pessoais mostra encontro em iate ancorado na baía de Angra dos Reis em dezembro..."
+              date="DOC-2010-12-03 | Photo Archive"
+            />
+            <TeaserCard
+              title="Depoimento #12: Funcionária brasileira relata rotina na mansão."
+              tag="TESTEMUNHO"
+              tagColor="yellow"
+              preview="Transcrição parcial do depoimento de Maria S., cidadã brasileira que trabalhou como empregada doméstica..."
+              date="DOC-2019-08-09 | Court Testimony"
             />
           </div>
 
@@ -166,12 +346,62 @@ const Index = () => {
             >
               <Button 
                 size="lg"
-                className="bg-terminal hover:bg-terminal/90 text-terminal-foreground font-bold px-6 py-5"
+                className="bg-terminal hover:bg-terminal/90 text-terminal-foreground font-bold px-8 py-6 shadow-glow-green animate-glow-green"
               >
                 <LockOpen className="w-5 h-5 mr-2" />
-                LIBERAR ACESSO COMPLETO
+                DESBLOQUEAR TODOS OS DOCUMENTOS — R$ 1,99
               </Button>
             </a>
+            <p className="text-xs text-muted-foreground mt-3">
+              Mais de <span className="text-foreground font-semibold">2.300 pessoas</span> já acessaram este dossiê
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* What You Get Section */}
+      <section className="py-12 md:py-16 px-4 bg-secondary/20 border-y border-border">
+        <div className="container mx-auto max-w-4xl">
+          <h3 className="text-lg md:text-2xl font-bold text-foreground text-center mb-8">
+            O que você recebe por <span className="text-terminal">R$ 1,99</span>
+          </h3>
+          <div className="grid md:grid-cols-2 gap-4">
+            {[
+              { icon: FileText, text: "Acesso aos 5.247 páginas de documentos organizados" },
+              { icon: Plane, text: "Logs de voo completos do 'Lolita Express' com passageiros" },
+              { icon: Users, text: "Lista traduzida de todas as menções a brasileiros" },
+              { icon: Eye, text: "Fotos e imagens dos arquivos pessoais" },
+              { icon: CheckCircle2, text: "Ferramenta de tradução automática dos PDFs" },
+              { icon: TrendingUp, text: "Atualizações em tempo real com novos vazamentos" },
+            ].map(({ icon: Icon, text }, i) => (
+              <div key={i} className="flex items-start gap-3 p-3 rounded-lg bg-card border border-border">
+                <Icon className="w-5 h-5 text-terminal flex-shrink-0 mt-0.5" />
+                <span className="text-sm text-foreground">{text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-12 md:py-16 px-4">
+        <div className="container mx-auto max-w-4xl">
+          <h3 className="text-lg md:text-xl font-bold text-foreground text-center mb-6">
+            O que dizem quem já acessou
+          </h3>
+          <div className="grid md:grid-cols-3 gap-4">
+            <TestimonialCard
+              text="Finalmente consegui entender o caso sem depender da Globo. Conteúdo absurdo."
+              name="Rafael M."
+            />
+            <TestimonialCard
+              text="A tradução dos e-mails é muito boa. Dá pra ver claramente as conexões com o Brasil."
+              name="Camila S."
+            />
+            <TestimonialCard
+              text="R$ 1,99 por tudo isso? Achei que era golpe, mas o conteúdo é real e muito bem organizado."
+              name="Diego L."
+            />
           </div>
         </div>
       </section>
@@ -179,12 +409,42 @@ const Index = () => {
       {/* Urgency Banner */}
       <section className="py-6 px-4 bg-alert/10 border-y border-alert/30">
         <div className="container mx-auto max-w-4xl text-center">
-          <div className="flex items-center justify-center gap-2 text-alert">
-            <AlertTriangle className="w-5 h-5" />
-            <span className="text-sm md:text-base font-semibold">
-              Documentos podem ser removidos a qualquer momento
-            </span>
+          <div className="flex flex-col items-center gap-2">
+            <div className="flex items-center gap-2 text-alert">
+              <AlertTriangle className="w-5 h-5" />
+              <span className="text-sm md:text-base font-semibold">
+                Documentos podem ser removidos a qualquer momento por ordem judicial
+              </span>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Garanta seu acesso agora. Uma vez desbloqueado, o conteúdo fica disponível para sempre.
+            </p>
           </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="py-12 md:py-16 px-4">
+        <div className="container mx-auto max-w-lg text-center">
+          <h3 className="text-xl md:text-2xl font-bold text-foreground mb-3">
+            Não fique por fora.
+          </h3>
+          <p className="text-sm text-muted-foreground mb-6">
+            A verdade está a um clique de distância. Faça como mais de 2.300 brasileiros e acesse o dossiê completo.
+          </p>
+          <a 
+            href="https://mpago.la/2br5Vav" 
+            target="_blank" 
+            rel="noopener noreferrer"
+          >
+            <Button 
+              size="lg"
+              className="bg-terminal hover:bg-terminal/90 text-terminal-foreground font-bold text-base md:text-lg px-8 py-7 shadow-glow-green animate-glow-green transition-all hover:scale-105 w-full md:w-auto"
+            >
+              <LockOpen className="w-5 h-5 mr-2" />
+              LIBERAR ACESSO COMPLETO — R$ 1,99
+            </Button>
+          </a>
         </div>
       </section>
 
@@ -192,12 +452,11 @@ const Index = () => {
       <footer className="py-8 px-4 border-t border-border">
         <div className="container mx-auto max-w-4xl text-center">
           <p className="text-xs text-muted-foreground">
-            © 2024 Arquivos Epstein Brasil. Todos os documentos são de domínio público.
+            © 2025 Arquivos Epstein Brasil. Todos os documentos são de domínio público obtidos via FOIA.
           </p>
         </div>
       </footer>
 
-      {/* WhatsApp Button */}
       <WhatsAppButton />
     </div>
   );
