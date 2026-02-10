@@ -155,7 +155,7 @@ const Index = () => {
       <div className="bg-alert/10 border-b border-alert/30 py-2 px-4 animate-pulse-slow">
         <div className="container mx-auto text-center">
           <span className="text-xs md:text-sm font-mono text-alert">
-            🔴 URGENTE: Novos documentos liberados pela Suprema Corte dos EUA em Janeiro/2025
+            🔴 URGENTE: Novos documentos liberados pela Suprema Corte dos EUA em Janeiro/2026
           </span>
         </div>
       </div>
@@ -180,7 +180,7 @@ const Index = () => {
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-alert/10 border border-alert/30 mt-4 mb-6">
             <span className="w-2 h-2 bg-alert rounded-full animate-pulse" />
             <span className="text-xs md:text-sm font-mono text-alert uppercase tracking-wider">
-              Documentos Recém-Liberados — Jan/2025
+              Documentos Recém-Liberados — Jan/2026
             </span>
           </div>
 
@@ -452,7 +452,7 @@ const Index = () => {
       <footer className="py-8 px-4 border-t border-border">
         <div className="container mx-auto max-w-4xl text-center">
           <p className="text-xs text-muted-foreground">
-            © 2025 Arquivos Epstein Brasil. Todos os documentos são de domínio público obtidos via FOIA.
+            © 2026 Arquivos Epstein Brasil. Todos os documentos são de domínio público obtidos via FOIA.
           </p>
         </div>
       </footer>
