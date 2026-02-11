@@ -108,9 +108,7 @@ Deno.serve(async (req) => {
         });
       }
 
-      // Determine the site URL
-      const siteUrl = "https://id-preview--337ab29e-8dd1-4fe8-99d1-54f51569f7cc.lovable.app";
-      const secretLink = `${siteUrl}/dossie-secreto-brasil-liberado`;
+      const secretLink = "https://epstein-arquivos.vercel.app/dossie-secreto-brasil-liberado";
 
       // Send email via Resend
       const emailResponse = await fetch("https://api.resend.com/emails", {
@@ -122,34 +120,33 @@ Deno.serve(async (req) => {
         body: JSON.stringify({
           from: "Arquivos Epstein Brasil <onboarding@resend.dev>",
           to: [payerEmail],
-          subject: "✅ Acesso Liberado — Dossiê Epstein Brasil",
+          subject: "[Acesso Liberado] Seu Dossiê Secreto chegou",
           html: `
             <div style="background-color: #0a0a0a; color: #e5e5e5; padding: 40px 20px; font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-              <div style="text-align: center; margin-bottom: 30px;">
-                <h1 style="color: #22c55e; font-size: 24px; margin: 0;">🔓 ACESSO LIBERADO</h1>
-                <p style="color: #a3a3a3; font-size: 14px; margin-top: 8px;">Seu pagamento foi confirmado com sucesso</p>
-              </div>
-              
-              <div style="background-color: #171717; border: 1px solid #22c55e; border-radius: 8px; padding: 24px; margin-bottom: 24px;">
-                <p style="margin: 0 0 16px 0; font-size: 16px;">Olá!</p>
+              <div style="background-color: #171717; border: 1px solid #22c55e; border-radius: 8px; padding: 24px;">
+                <p style="margin: 0 0 16px 0; font-size: 16px; color: #ffffff;">Olá!</p>
                 <p style="margin: 0 0 16px 0; font-size: 14px; color: #d4d4d4;">
-                  Seu acesso ao <strong style="color: #ffffff;">Dossiê Epstein Brasil</strong> está liberado. 
-                  Clique no botão abaixo para acessar todos os documentos traduzidos:
+                  Seu pagamento de <strong style="color: #22c55e;">R$ 1,99</strong> foi confirmado.
+                </p>
+                <p style="margin: 0 0 16px 0; font-size: 14px; color: #d4d4d4;">
+                  Conforme prometido, aqui está o link exclusivo para acessar os arquivos:
                 </p>
                 <div style="text-align: center; margin: 24px 0;">
                   <a href="${secretLink}" 
                      style="background-color: #22c55e; color: #000000; padding: 14px 32px; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 16px; display: inline-block;">
-                    ACESSAR DOSSIÊ COMPLETO
+                    👉 ACESSAR DOSSIÊ SECRETO
                   </a>
                 </div>
                 <p style="margin: 16px 0 0 0; font-size: 12px; color: #737373;">
                   Ou copie e cole este link: <br/>
                   <span style="color: #22c55e; word-break: break-all;">${secretLink}</span>
                 </p>
+                <p style="margin: 16px 0 0 0; font-size: 13px; color: #a3a3a3;">
+                  Guarde este e-mail para acessar sempre que quiser.
+                </p>
               </div>
               
-              <div style="text-align: center; font-size: 11px; color: #525252;">
-                <p>Guarde este e-mail. Este é seu acesso permanente ao dossiê.</p>
+              <div style="text-align: center; font-size: 11px; color: #525252; margin-top: 20px;">
                 <p>© 2026 Arquivos Epstein Brasil</p>
               </div>
             </div>

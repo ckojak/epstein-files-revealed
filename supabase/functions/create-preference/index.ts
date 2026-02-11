@@ -30,8 +30,8 @@ Deno.serve(async (req) => {
     }
 
     // Determine the base URL for back_urls
-    const origin = req.headers.get("origin") || "https://id-preview--337ab29e-8dd1-4fe8-99d1-54f51569f7cc.lovable.app";
-    const successUrl = `${origin}/dossie-secreto-brasil-liberado`;
+    const origin = req.headers.get("origin") || "https://epstein-arquivos.vercel.app";
+    const successUrl = `${origin}/obrigado`;
 
     // Create MercadoPago preference
     const mpResponse = await fetch("https://api.mercadopago.com/checkout/preferences", {
@@ -43,7 +43,7 @@ Deno.serve(async (req) => {
       body: JSON.stringify({
         items: [
           {
-            title: "Dossiê Epstein Brasil - Acesso Completo",
+            title: "Acesso ao Dossiê Secreto",
             quantity: 1,
             unit_price: 1.99,
             currency_id: "BRL",
