@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { 
   LockOpen, Shield, Eye, AlertTriangle, FileText, Plane, Users, 
-  MessageCircle, Clock, TrendingUp, CheckCircle2, Lock, Zap, Star
+  MessageCircle, Clock, TrendingUp, CheckCircle2, Lock, Zap, Star, Loader2
 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 // Animated counter hook
 const useAnimatedNumber = (target: number, duration = 2000) => {
@@ -129,6 +132,32 @@ const Index = () => {
   const pages = useAnimatedNumber(5247);
   const emails = useAnimatedNumber(847);
   const mentions = useAnimatedNumber(23);
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleCheckout = async () => {
+    if (!email || !email.includes("@")) {
+      toast.error("Digite um e-mail válido para receber o acesso.");
+      return;
+    }
+    setLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("create-preference", {
+        body: { email },
+      });
+      if (error) throw error;
+      if (data?.init_point) {
+        window.location.href = data.init_point;
+      } else {
+        throw new Error("Não foi possível gerar o link de pagamento.");
+      }
+    } catch (err: any) {
+      console.error("Checkout error:", err);
+      toast.error("Erro ao processar. Tente novamente.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Countdown timer (resets every 24h)
   const [timeLeft, setTimeLeft] = useState({ h: 0, m: 0, s: 0 });
@@ -203,21 +232,28 @@ const Index = () => {
             {" "}<span className="text-foreground font-semibold">menções a políticos brasileiros</span>.
           </p>
 
-          {/* CTA Button */}
-          <div className="mb-3">
-            <a 
-              href="https://mpago.la/2br5Vav" 
-              target="_blank" 
-              rel="noopener noreferrer"
+          {/* Email + CTA */}
+          <div className="max-w-md mx-auto mb-3 space-y-3">
+            <Input
+              type="email"
+              placeholder="Seu melhor e-mail para receber o acesso"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="bg-card border-border text-foreground placeholder:text-muted-foreground text-center h-12"
+            />
+            <Button 
+              size="lg"
+              onClick={handleCheckout}
+              disabled={loading}
+              className="w-full bg-terminal hover:bg-terminal/90 text-terminal-foreground font-bold text-base md:text-lg px-6 md:px-10 py-6 md:py-8 shadow-glow-green animate-glow-green transition-all hover:scale-105"
             >
-              <Button 
-                size="lg"
-                className="bg-terminal hover:bg-terminal/90 text-terminal-foreground font-bold text-base md:text-lg px-6 md:px-10 py-6 md:py-8 shadow-glow-green animate-glow-green transition-all hover:scale-105"
-              >
+              {loading ? (
+                <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+              ) : (
                 <LockOpen className="w-5 h-5 mr-2" />
-                DESBLOQUEAR ACESSO IMEDIATO — R$ 1,99
-              </Button>
-            </a>
+              )}
+              {loading ? "REDIRECIONANDO..." : "DESBLOQUEAR ACESSO IMEDIATO — R$ 1,99"}
+            </Button>
           </div>
           <div className="flex flex-col items-center gap-1 mb-4">
             <p className="text-xs md:text-sm text-muted-foreground">
@@ -339,19 +375,16 @@ const Index = () => {
 
           {/* Second CTA */}
           <div className="mt-10 text-center">
-            <a 
-              href="https://mpago.la/2br5Vav" 
-              target="_blank" 
-              rel="noopener noreferrer"
+            <Button 
+              size="lg"
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="bg-terminal hover:bg-terminal/90 text-terminal-foreground font-bold px-8 py-6 shadow-glow-green animate-glow-green"
             >
-              <Button 
-                size="lg"
-                className="bg-terminal hover:bg-terminal/90 text-terminal-foreground font-bold px-8 py-6 shadow-glow-green animate-glow-green"
-              >
-                <LockOpen className="w-5 h-5 mr-2" />
-                DESBLOQUEAR TODOS OS DOCUMENTOS — R$ 1,99
-              </Button>
-            </a>
+              <LockOpen className="w-5 h-5 mr-2" />
+              DESBLOQUEAR TODOS OS DOCUMENTOS — R$ 1,99
+            </Button>
             <p className="text-xs text-muted-foreground mt-3">
               Mais de <span className="text-foreground font-semibold">2.300 pessoas</span> já acessaram este dossiê
             </p>
@@ -432,19 +465,16 @@ const Index = () => {
           <p className="text-sm text-muted-foreground mb-6">
             A verdade está a um clique de distância. Faça como mais de 2.300 brasileiros e acesse o dossiê completo.
           </p>
-          <a 
-            href="https://mpago.la/2br5Vav" 
-            target="_blank" 
-            rel="noopener noreferrer"
+          <Button 
+            size="lg"
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="bg-terminal hover:bg-terminal/90 text-terminal-foreground font-bold text-base md:text-lg px-8 py-7 shadow-glow-green animate-glow-green transition-all hover:scale-105 w-full md:w-auto"
           >
-            <Button 
-              size="lg"
-              className="bg-terminal hover:bg-terminal/90 text-terminal-foreground font-bold text-base md:text-lg px-8 py-7 shadow-glow-green animate-glow-green transition-all hover:scale-105 w-full md:w-auto"
-            >
-              <LockOpen className="w-5 h-5 mr-2" />
-              LIBERAR ACESSO COMPLETO — R$ 1,99
-            </Button>
-          </a>
+            <LockOpen className="w-5 h-5 mr-2" />
+            LIBERAR ACESSO COMPLETO — R$ 1,99
+          </Button>
         </div>
       </section>
 
