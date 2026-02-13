@@ -22,7 +22,7 @@ Deno.serve(async (req) => {
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
     const body = await req.json();
-    console.log("Process payment request:", JSON.stringify(body));
+    console.log("Process payment request recebida");
 
     const { formData, email } = body;
 
@@ -33,32 +33,23 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Build the payment payload for MercadoPago v1/payments
-    const paymentPayload: Record<string, unknown> = {
-      transaction_amount: 1.99,
+    // 🔥 PULO DO GATO 1: Repassar TODOS os dados do formulário sem cortar nada (para o PIX não bugar)
+    // 🔥 PULO DO GATO 2: Forçar a notification_url para a VERCEL para o e-mail sair na mesma hora!
+    const paymentPayload = {
+      ...formData, 
+      transaction_amount: 1.99, // Trava o valor para não ter fraude
       description: "Acesso ao Dossiê Secreto",
-      payment_method_id: formData.payment_method_id,
+      external_reference: email,
       payer: {
+        ...formData.payer,
         email: formData.payer?.email || email,
-        ...(formData.payer?.identification && {
-          identification: formData.payer.identification,
-        }),
       },
-      statement_descriptor: "EPSTEIN BRASIL",
-      external_reference: formData.payer?.email || email,
-      notification_url: `${SUPABASE_URL}/functions/v1/mercadopago-webhook`,
+      notification_url: "https://epstein-arquivos.vercel.app/api/webhook",
     };
 
-    // Card payment fields
-    if (formData.token) {
-      paymentPayload.token = formData.token;
-      paymentPayload.installments = formData.installments || 1;
-      paymentPayload.issuer_id = formData.issuer_id;
-    }
+    console.log("Enviando para Mercado Pago com sucesso");
 
-    console.log("Sending to MP:", JSON.stringify(paymentPayload));
-
-    // Create payment via MercadoPago API
+    // Cria o pagamento via API do Mercado Pago
     const mpResponse = await fetch("https://api.mercadopago.com/v1/payments", {
       method: "POST",
       headers: {
@@ -70,7 +61,6 @@ Deno.serve(async (req) => {
     });
 
     const mpData = await mpResponse.json();
-    console.log("MP Response:", mpResponse.status, JSON.stringify(mpData));
 
     if (!mpResponse.ok) {
       return new Response(
@@ -82,30 +72,27 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Save payment record in database
-    const payerEmail = formData.payer?.email || email;
+    // Salva o registro no banco de dados para segurança
     await supabase.from("payments").insert({
-      email: payerEmail,
+      email: email,
       mercadopago_payment_id: String(mpData.id),
       status: mpData.status,
     });
 
-    // Return payment result
+    // Devolve os dados para o Frontend renderizar o PIX na tela
     return new Response(
       JSON.stringify({
         status: mpData.status,
         status_detail: mpData.status_detail,
         id: mpData.id,
-        // PIX-specific data
-        point_of_interaction: mpData.point_of_interaction,
+        point_of_interaction: mpData.point_of_interaction, // Aqui está o QR Code!
       }),
       { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
-  } catch (error: unknown) {
-    console.error("Process payment error:", error);
-    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+  } catch (error: any) {
+    console.error("Erro interno:", error);
     return new Response(
-      JSON.stringify({ error: errorMessage }),
+      JSON.stringify({ error: error.message }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }
