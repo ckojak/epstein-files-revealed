@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { initMercadoPago, Payment } from "@mercadopago/sdk-react";
 import { Button } from "@/components/ui/button";
@@ -173,8 +173,7 @@ const Index = () => {
           toast.success("Pagamento aprovado! Redirecionando...");
           navigate("/obrigado");
         } else if (data.status === "pending" || data.status === "in_process") {
-          // For PIX payments that are pending
-          toast.info("Pagamento pendente. Complete o pagamento para receber o acesso.");
+          toast.info("Aguardando confirmação. Caso seja PIX, use o código gerado para pagar.");
         } else {
           toast.error(`Pagamento ${data.status_detail || "não aprovado"}. Tente novamente.`);
         }
@@ -209,6 +208,34 @@ const Index = () => {
     updateTimer();
     const interval = setInterval(updateTimer, 1000);
     return () => clearInterval(interval);
+  }, []);
+
+  // 🛑 CORREÇÃO DO LOOP INFINITO E ATIVAÇÃO DO PIX 🛑
+  // Ao colocar useMemo, impedimos que o Mercado Pago reinicie a cada 1 segundo do cronômetro.
+  const initialization = useMemo(() => {
+    return {
+      amount: 1.99,
+      payer: {
+        email: email,
+      },
+    };
+  }, [email]);
+
+  const customization = useMemo(() => {
+    return {
+      paymentMethods: {
+        bankTransfer: "all", // ISSO ATIVA O PIX
+        ticket: "all",       // BOLETO/LOTÉRICA
+        creditCard: "all",
+        debitCard: "all",
+        mercadoPago: "all",
+      },
+      visual: {
+        style: {
+          theme: "dark" as const,
+        },
+      },
+    };
   }, []);
 
   return (
@@ -306,24 +333,8 @@ const Index = () => {
               )}
 
               <Payment
-                initialization={{
-                  amount: 1.99,
-                  payer: {
-                    email: email,
-                  },
-                }}
-                customization={{
-                  paymentMethods: {
-                    creditCard: "all",
-                    debitCard: "all",
-                    mercadoPago: "all",
-                  },
-                  visual: {
-                    style: {
-                      theme: "dark",
-                    },
-                  },
-                }}
+                initialization={initialization}
+                customization={customization}
                 onSubmit={handlePaymentSubmit}
                 onError={handlePaymentError}
               />
