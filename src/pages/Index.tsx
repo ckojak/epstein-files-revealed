@@ -1,4 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { initMercadoPago, Payment } from "@mercadopago/sdk-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -8,6 +10,11 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+
+// Initialize MercadoPago with public key
+initMercadoPago("APP_USR-4b97a6cb-419b-4ddd-8b6d-1471bfffa8f2", {
+  locale: "pt-BR",
+});
 
 // Animated counter hook
 const useAnimatedNumber = (target: number, duration = 2000) => {
@@ -34,7 +41,6 @@ const LiveVisitorCounter = () => {
   const [visitors, setVisitors] = useState(0);
 
   useEffect(() => {
-    // Base count from time of day (more realistic)
     const hour = new Date().getHours();
     const baseVisitors = hour >= 8 && hour <= 23 ? 127 + Math.floor(Math.random() * 89) : 42 + Math.floor(Math.random() * 35);
     setVisitors(baseVisitors);
@@ -129,35 +135,62 @@ const WhatsAppButton = () => (
 );
 
 const Index = () => {
+  const navigate = useNavigate();
   const pages = useAnimatedNumber(5247);
   const emails = useAnimatedNumber(847);
   const mentions = useAnimatedNumber(23);
   const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [showPaymentBrick, setShowPaymentBrick] = useState(false);
+  const [processingPayment, setProcessingPayment] = useState(false);
 
-  const handleCheckout = async () => {
+  const handleStartCheckout = () => {
     if (!email || !email.includes("@")) {
       toast.error("Digite um e-mail válido para receber o acesso.");
       return;
     }
-    setLoading(true);
-    try {
-      const { data, error } = await supabase.functions.invoke("create-preference", {
-        body: { email },
-      });
-      if (error) throw error;
-      if (data?.init_point) {
-        window.location.href = data.init_point;
-      } else {
-        throw new Error("Não foi possível gerar o link de pagamento.");
-      }
-    } catch (err: any) {
-      console.error("Checkout error:", err);
-      toast.error("Erro ao processar. Tente novamente.");
-    } finally {
-      setLoading(false);
-    }
+    setShowPaymentBrick(true);
+    // Scroll to the payment brick
+    setTimeout(() => {
+      document.getElementById("payment-brick-container")?.scrollIntoView({ behavior: "smooth" });
+    }, 300);
   };
+
+  const handlePaymentSubmit = useCallback(
+    async ({ selectedPaymentMethod, formData }: { selectedPaymentMethod: string; formData: any }) => {
+      console.log("Payment submitted:", selectedPaymentMethod, formData);
+      setProcessingPayment(true);
+
+      try {
+        const { data, error } = await supabase.functions.invoke("process-payment", {
+          body: { formData, email },
+        });
+
+        if (error) throw error;
+
+        console.log("Payment result:", data);
+
+        if (data.status === "approved") {
+          toast.success("Pagamento aprovado! Redirecionando...");
+          navigate("/obrigado");
+        } else if (data.status === "pending" || data.status === "in_process") {
+          // For PIX payments that are pending
+          toast.info("Pagamento pendente. Complete o pagamento para receber o acesso.");
+        } else {
+          toast.error(`Pagamento ${data.status_detail || "não aprovado"}. Tente novamente.`);
+        }
+      } catch (err: any) {
+        console.error("Payment error:", err);
+        toast.error("Erro ao processar pagamento. Tente novamente.");
+      } finally {
+        setProcessingPayment(false);
+      }
+    },
+    [email, navigate]
+  );
+
+  const handlePaymentError = useCallback((error: any) => {
+    console.error("Payment Brick error:", error);
+  }, []);
 
   // Countdown timer (resets every 24h)
   const [timeLeft, setTimeLeft] = useState({ h: 0, m: 0, s: 0 });
@@ -233,31 +266,73 @@ const Index = () => {
           </p>
 
           {/* Email + CTA */}
-          <div className="max-w-md mx-auto mb-3 space-y-3">
-            <Input
-              type="email"
-              placeholder="Seu melhor e-mail para receber o acesso"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="bg-card border-border text-foreground placeholder:text-muted-foreground text-center h-12"
-            />
-            <Button 
-              size="lg"
-              onClick={handleCheckout}
-              disabled={loading}
-              className="w-full bg-terminal hover:bg-terminal/90 text-terminal-foreground font-bold text-base md:text-lg px-6 md:px-10 py-6 md:py-8 shadow-glow-green animate-glow-green transition-all hover:scale-105"
-            >
-              {loading ? (
-                <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-              ) : (
+          {!showPaymentBrick ? (
+            <div className="max-w-md mx-auto mb-3 space-y-3">
+              <Input
+                type="email"
+                placeholder="Seu melhor e-mail para receber o acesso"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="bg-card border-border text-foreground placeholder:text-muted-foreground text-center h-12"
+              />
+              <Button 
+                size="lg"
+                onClick={handleStartCheckout}
+                className="w-full bg-terminal hover:bg-terminal/90 text-terminal-foreground font-bold text-base md:text-lg px-6 md:px-10 py-6 md:py-8 shadow-glow-green animate-glow-green transition-all hover:scale-105"
+              >
                 <LockOpen className="w-5 h-5 mr-2" />
+                DESBLOQUEAR ACESSO IMEDIATO — R$ 1,99
+              </Button>
+            </div>
+          ) : (
+            <div id="payment-brick-container" className="max-w-lg mx-auto mb-3">
+              <div className="text-left mb-4 p-3 rounded-lg bg-terminal/10 border border-terminal/30">
+                <p className="text-sm text-terminal font-mono">
+                  ✓ E-mail: <span className="text-foreground">{email}</span>
+                </p>
+                <button 
+                  onClick={() => setShowPaymentBrick(false)} 
+                  className="text-xs text-muted-foreground underline mt-1 hover:text-foreground"
+                >
+                  Alterar e-mail
+                </button>
+              </div>
+
+              {processingPayment && (
+                <div className="flex items-center justify-center gap-2 py-4 text-terminal">
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <span className="text-sm font-mono">Processando pagamento...</span>
+                </div>
               )}
-              {loading ? "REDIRECIONANDO..." : "DESBLOQUEAR ACESSO IMEDIATO — R$ 1,99"}
-            </Button>
-          </div>
+
+              <Payment
+                initialization={{
+                  amount: 1.99,
+                  payer: {
+                    email: email,
+                  },
+                }}
+                customization={{
+                  paymentMethods: {
+                    creditCard: "all",
+                    debitCard: "all",
+                    mercadoPago: "all",
+                  },
+                  visual: {
+                    style: {
+                      theme: "dark",
+                    },
+                  },
+                }}
+                onSubmit={handlePaymentSubmit}
+                onError={handlePaymentError}
+              />
+            </div>
+          )}
+
           <div className="flex flex-col items-center gap-1 mb-4">
             <p className="text-xs md:text-sm text-muted-foreground">
-              <span className="text-terminal">✓</span> Acesso liberado automaticamente após o PIX
+              <span className="text-terminal">✓</span> Acesso liberado automaticamente após o pagamento
             </p>
             <p className="text-xs text-muted-foreground">
               <span className="text-terminal">✓</span> Valor simbólico para manutenção do servidor
