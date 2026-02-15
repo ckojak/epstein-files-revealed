@@ -118,7 +118,7 @@ const TestimonialCard = ({ text, name }: { text: string; name: string }) => (
 
 const WhatsAppButton = () => (
   <a
-    href="https://wa.me/5511999999999?text=Oi! Tenho dúvidas sobre o acesso aos arquivos Epstein."
+    href="https://wa.me/5521979934676?text=Oi! Tenho dúvidas sobre o acesso aos arquivos Epstein."
     target="_blank"
     rel="noopener noreferrer"
     className="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-[#25D366] hover:bg-[#20BA5C] text-white px-4 py-3 rounded-full shadow-lg transition-all hover:scale-105"
@@ -252,7 +252,7 @@ const Index = () => {
               ) : (
                 <LockOpen className="w-5 h-5 mr-2" />
               )}
-              {loading ? "REDIRECIONANDO..." : "DESBLOQUEAR ACESSO IMEDIATO — R$ 1,99"}
+              {loading ? "REDIRECIONANDO..." : "DESBLOQUEAR ACESSO IMEDIATO — R$ 4,99"}
             </Button>
           </div>
           <div className="flex flex-col items-center gap-1 mb-4">
