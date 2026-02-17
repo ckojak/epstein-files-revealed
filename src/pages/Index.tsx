@@ -333,7 +333,7 @@ const Index = () => {
             <h3 className="text-lg md:text-xl font-bold text-foreground">Prévia dos Documentos</h3>
             <div className="flex-1 h-px bg-border" />
           </div>
-          <p className="text-xs text-muted-foreground mb-6">Conteúdo borrado. Pague R$ 1,99 para desbloquear a versão completa.</p>
+          <p className="text-xs text-muted-foreground mb-6">Conteúdo borrado. Pague R$ 4,99 para desbloquear a versão completa.</p>
 
           <div className="grid gap-4 md:gap-6">
             <TeaserCard
@@ -383,7 +383,7 @@ const Index = () => {
               className="bg-terminal hover:bg-terminal/90 text-terminal-foreground font-bold px-8 py-6 shadow-glow-green animate-glow-green"
             >
               <LockOpen className="w-5 h-5 mr-2" />
-              DESBLOQUEAR TODOS OS DOCUMENTOS — R$ 1,99
+              DESBLOQUEAR TODOS OS DOCUMENTOS — R$ 4,99
             </Button>
             <p className="text-xs text-muted-foreground mt-3">
               Mais de <span className="text-foreground font-semibold">2.300 pessoas</span> já acessaram este dossiê
@@ -396,7 +396,7 @@ const Index = () => {
       <section className="py-12 md:py-16 px-4 bg-secondary/20 border-y border-border">
         <div className="container mx-auto max-w-4xl">
           <h3 className="text-lg md:text-2xl font-bold text-foreground text-center mb-8">
-            O que você recebe por <span className="text-terminal">R$ 1,99</span>
+            O que você recebe por <span className="text-terminal">R$ 4,99</span>
           </h3>
           <div className="grid md:grid-cols-2 gap-4">
             {[
@@ -432,7 +432,7 @@ const Index = () => {
               name="Camila S."
             />
             <TestimonialCard
-              text="R$ 1,99 por tudo isso? Achei que era golpe, mas o conteúdo é real e muito bem organizado."
+              text="R$ 4,99 por tudo isso? Achei que era golpe, mas o conteúdo é real e muito bem organizado."
               name="Diego L."
             />
           </div>
