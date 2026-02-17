@@ -56,7 +56,8 @@ Deno.serve(async (req) => {
           pending: origin,
         },
         auto_return: "approved",
-        notification_url: `${SUPABASE_URL}/functions/v1/mercadopago-webhook`,
+        // BYPASS: Apontando direto para a Vercel para garantir o disparo do e-mail
+        notification_url: "https://epstein-arquivos.vercel.app/api/webhook",
         payment_methods: {
           excluded_payment_types: [],
           installments: 1,
