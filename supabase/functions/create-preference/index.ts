@@ -45,7 +45,7 @@ Deno.serve(async (req) => {
           {
             title: "Acesso ao Dossiê Secreto",
             quantity: 1,
-            unit_price: 1.99,
+            unit_price: 4.99,
             currency_id: "BRL",
           },
         ],
