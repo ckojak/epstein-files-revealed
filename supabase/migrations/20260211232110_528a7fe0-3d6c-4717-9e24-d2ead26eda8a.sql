@@ -6,7 +6,7 @@ CREATE TABLE public.payments (
   mercadopago_preference_id TEXT,
   mercadopago_payment_id TEXT,
   status TEXT NOT NULL DEFAULT 'pending',
-  amount NUMERIC NOT NULL DEFAULT 1.99,
+  amount NUMERIC NOT NULL DEFAULT 4.99,
   email_sent BOOLEAN NOT NULL DEFAULT false,
   created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
   updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()
