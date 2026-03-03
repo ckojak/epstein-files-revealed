@@ -14,6 +14,24 @@ export type Database = {
   }
   public: {
     Tables: {
+      configuracoes_pagamento: {
+        Row: {
+          id: number
+          preco: number
+          produto_id: string
+        }
+        Insert: {
+          id?: number
+          preco: number
+          produto_id: string
+        }
+        Update: {
+          id?: number
+          preco?: number
+          produto_id?: string
+        }
+        Relationships: []
+      }
       payments: {
         Row: {
           amount: number
