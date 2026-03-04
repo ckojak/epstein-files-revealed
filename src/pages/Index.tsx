@@ -4,7 +4,8 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { 
   LockOpen, Shield, Eye, AlertTriangle, FileText, Plane, Users, 
-  MessageCircle, Clock, TrendingUp, CheckCircle2, Lock, Zap, Star, Loader2
+  MessageCircle, Clock, TrendingUp, CheckCircle2, Lock, Zap, Star, Loader2,
+  Flame, Globe, Crosshair, Skull
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -435,6 +436,106 @@ const Index = () => {
               text="R$ 4,99 por tudo isso? Achei que era golpe, mas o conteúdo é real e muito bem organizado."
               name="Diego L."
             />
+          </div>
+        </div>
+      </section>
+
+      {/* Global Wars Section */}
+      <section className="py-12 md:py-16 px-4 bg-alert/5 border-y border-alert/20">
+        <div className="container mx-auto max-w-4xl">
+          <div className="flex items-center gap-3 mb-2">
+            <Globe className="w-5 h-5 text-alert" />
+            <h3 className="text-lg md:text-2xl font-bold text-foreground">
+              Guerras & Conflitos Globais em <span className="text-alert">2026</span>
+            </h3>
+            <div className="flex-1 h-px bg-border" />
+          </div>
+          <p className="text-xs text-muted-foreground mb-6">
+            Epstein financiava e conectava líderes envolvidos nesses conflitos. Os documentos revelam tudo.
+          </p>
+
+          <div className="grid md:grid-cols-2 gap-4 mb-8">
+            {[
+              {
+                icon: Crosshair,
+                country: "🇺🇦 Ucrânia vs Rússia",
+                status: "GUERRA ATIVA",
+                statusColor: "text-alert",
+                casualties: "~77.900 baixas (12 meses)",
+                desc: "Conflito de larga escala desde 2022. Documentos Epstein revelam conexões com oligarcas russos e ucranianos que financiavam a rede.",
+              },
+              {
+                icon: Flame,
+                country: "🇸🇩 Sudão — Guerra Civil",
+                status: "CRISE HUMANITÁRIA",
+                statusColor: "text-warning",
+                casualties: "~19.600 baixas (12 meses)",
+                desc: "RSF vs Exército Sudanês. Milhões de deslocados. Nomes ligados ao tráfico de armas aparecem em e-mails do dossiê.",
+              },
+              {
+                icon: Skull,
+                country: "🇵🇸 Palestina — Gaza",
+                status: "CESSAR-FOGO FRÁGIL",
+                statusColor: "text-warning",
+                casualties: "~18.300 baixas (12 meses)",
+                desc: "Ofensiva israelense iniciada em 2023. Documentos revelam reuniões de Epstein com líderes de ambos os lados.",
+              },
+              {
+                icon: Crosshair,
+                country: "🇲🇲 Myanmar — Guerra Civil",
+                status: "GUERRA ATIVA",
+                statusColor: "text-alert",
+                casualties: "~15.100 baixas (12 meses)",
+                desc: "Resistência popular contra junta militar desde 2021. Rede de Epstein ligada a tráfico humano na região.",
+              },
+              {
+                icon: Flame,
+                country: "🇳🇬 Nigéria — Insurgência",
+                status: "TERRORISMO ATIVO",
+                statusColor: "text-alert",
+                casualties: "~11.900 baixas (12 meses)",
+                desc: "Boko Haram e ISWAP continuam ataques. Fluxos financeiros ilícitos conectados à rede de influência documentada.",
+              },
+              {
+                icon: Crosshair,
+                country: "🇨🇩 RD Congo — Conflito Armado",
+                status: "GUERRA ATIVA",
+                statusColor: "text-alert",
+                casualties: "Milhares de vítimas",
+                desc: "M23 e grupos armados disputam minerais raros. Empresários do dossiê tinham interesses em cobalto e coltan.",
+              },
+            ].map(({ icon: Icon, country, status, statusColor, casualties, desc }, i) => (
+              <Card key={i} className="border-border bg-card p-4 md:p-5 hover:border-alert/30 transition-all duration-300">
+                <div className="flex items-start gap-3">
+                  <div className="p-2 bg-alert/10 rounded-lg shrink-0">
+                    <Icon className="w-4 h-4 text-alert" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between gap-2 mb-1">
+                      <h4 className="font-bold text-foreground text-sm">{country}</h4>
+                      <span className={`text-[10px] font-mono font-bold ${statusColor} shrink-0`}>{status}</span>
+                    </div>
+                    <p className="text-[11px] text-terminal font-mono mb-1">{casualties}</p>
+                    <p className="text-xs text-muted-foreground leading-relaxed">{desc}</p>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <p className="text-sm text-muted-foreground mb-4">
+              Os documentos de Epstein revelam <span className="text-foreground font-semibold">conexões ocultas</span> entre sua rede e 
+              financiadores de conflitos armados em todo o mundo. <span className="text-alert font-semibold">Nomes, datas e valores</span> estão nos arquivos.
+            </p>
+            <Button
+              size="lg"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="bg-alert hover:bg-alert/90 text-white font-bold px-8 py-6"
+            >
+              <Eye className="w-5 h-5 mr-2" />
+              VER CONEXÕES COM GUERRAS — R$ 4,99
+            </Button>
           </div>
         </div>
       </section>

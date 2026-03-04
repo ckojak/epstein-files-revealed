@@ -1,4 +1,4 @@
-import { CheckCircle2, Mail, Shield, ArrowRight, Database, Search, FileText, Lock, Sparkles } from "lucide-react";
+import { CheckCircle2, Mail, Shield, ArrowRight, Database, Search, FileText, Lock, Sparkles, Globe, Flame, Crosshair, Skull } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -116,6 +116,38 @@ const ThankYou = () => {
               <Button variant="secondary" className="w-full text-xs h-9 bg-white/5 hover:bg-white/10 border-0 text-neutral-300" onClick={() => window.open(links.jefftube, '_blank')}>
                 JeffTube.net
               </Button>
+            </div>
+          </Card>
+
+          {/* Global Wars Section */}
+          <Card className="border-red-500/20 bg-[#0a0a0a] p-5 md:p-6">
+            <div className="flex items-center gap-2 mb-4">
+              <Globe className="w-5 h-5 text-red-400" />
+              <h3 className="font-bold text-white text-base">Guerras & Conflitos Globais — 2026</h3>
+            </div>
+            <p className="text-xs text-neutral-400 mb-4">
+              Os arquivos de Epstein revelam conexões com financiadores de guerras atuais. Explore os documentos.
+            </p>
+            <div className="grid gap-3">
+              {[
+                { flag: "🇺🇦", name: "Ucrânia vs Rússia", tag: "GUERRA ATIVA", tagColor: "text-red-400", detail: "Oligarcas russos e ucranianos conectados à rede." },
+                { flag: "🇸🇩", name: "Sudão — Guerra Civil", tag: "CRISE", tagColor: "text-yellow-400", detail: "Tráfico de armas ligado a e-mails do dossiê." },
+                { flag: "🇵🇸", name: "Gaza — Cessar-fogo frágil", tag: "MONITORANDO", tagColor: "text-yellow-400", detail: "Reuniões com líderes de ambos os lados documentadas." },
+                { flag: "🇲🇲", name: "Myanmar — Guerra Civil", tag: "GUERRA ATIVA", tagColor: "text-red-400", detail: "Tráfico humano na região conectado à rede." },
+                { flag: "🇳🇬", name: "Nigéria — Insurgência", tag: "TERRORISMO", tagColor: "text-red-400", detail: "Fluxos financeiros ilícitos documentados." },
+                { flag: "🇨🇩", name: "RD Congo — Conflito", tag: "GUERRA ATIVA", tagColor: "text-red-400", detail: "Interesses em cobalto e coltan nos arquivos." },
+              ].map(({ flag, name, tag, tagColor, detail }, i) => (
+                <div key={i} className="flex items-start gap-3 p-3 bg-white/[0.02] rounded-lg border border-white/5 hover:border-red-500/20 transition-colors">
+                  <span className="text-lg shrink-0">{flag}</span>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-sm font-semibold text-white">{name}</span>
+                      <span className={`text-[10px] font-mono font-bold ${tagColor} shrink-0`}>{tag}</span>
+                    </div>
+                    <p className="text-xs text-neutral-500 mt-0.5">{detail}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </Card>
 
