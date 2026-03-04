@@ -130,12 +130,17 @@ const ThankYou = () => {
             </p>
             <div className="grid gap-3">
               {[
+                { flag: "🇺🇸🇮🇱", name: "EUA & Israel vs Irã", tag: "GUERRA ATIVA", tagColor: "text-red-400", detail: "Bombardeios massivos desde 28/Fev/2026. Irã retalia com mísseis." },
+                { flag: "🇮🇷", name: "Irã — Retaliação Regional", tag: "ESCALADA", tagColor: "text-red-400", detail: "Ataques contra bases americanas no Golfo Pérsico." },
+                { flag: "🇰🇼", name: "Kuwait — Alerta Máximo", tag: "ALERTA", tagColor: "text-yellow-400", detail: "178 mísseis e 384 drones interceptados. Fogo amigo contra jatos dos EUA." },
+                { flag: "🇫🇷", name: "França — Expansão Nuclear", tag: "NUCLEAR", tagColor: "text-yellow-400", detail: "Macron: 'Quem quer ser livre tem que ser temido.' Arsenal atômico em expansão." },
                 { flag: "🇺🇦", name: "Ucrânia vs Rússia", tag: "GUERRA ATIVA", tagColor: "text-red-400", detail: "Oligarcas russos e ucranianos conectados à rede." },
                 { flag: "🇸🇩", name: "Sudão — Guerra Civil", tag: "CRISE", tagColor: "text-yellow-400", detail: "Tráfico de armas ligado a e-mails do dossiê." },
                 { flag: "🇵🇸", name: "Gaza — Cessar-fogo frágil", tag: "MONITORANDO", tagColor: "text-yellow-400", detail: "Reuniões com líderes de ambos os lados documentadas." },
                 { flag: "🇲🇲", name: "Myanmar — Guerra Civil", tag: "GUERRA ATIVA", tagColor: "text-red-400", detail: "Tráfico humano na região conectado à rede." },
                 { flag: "🇳🇬", name: "Nigéria — Insurgência", tag: "TERRORISMO", tagColor: "text-red-400", detail: "Fluxos financeiros ilícitos documentados." },
                 { flag: "🇨🇩", name: "RD Congo — Conflito", tag: "GUERRA ATIVA", tagColor: "text-red-400", detail: "Interesses em cobalto e coltan nos arquivos." },
+                { flag: "🇻🇪", name: "Venezuela — Operação EUA", tag: "INSTABILIDADE", tagColor: "text-yellow-400", detail: "Maduro capturado. Conexões com lavagem de dinheiro nos documentos." },
               ].map(({ flag, name, tag, tagColor, detail }, i) => (
                 <div key={i} className="flex items-start gap-3 p-3 bg-white/[0.02] rounded-lg border border-white/5 hover:border-red-500/20 transition-colors">
                   <span className="text-lg shrink-0">{flag}</span>

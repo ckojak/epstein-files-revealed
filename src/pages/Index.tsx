@@ -457,6 +457,38 @@ const Index = () => {
           <div className="grid md:grid-cols-2 gap-4 mb-8">
             {[
               {
+                icon: Flame,
+                country: "🇺🇸🇮🇱 EUA & Israel vs Irã",
+                status: "GUERRA ATIVA",
+                statusColor: "text-alert",
+                casualties: "Ataques aéreos massivos desde 28/Fev",
+                desc: "EUA e Israel lançaram bombardeios contra o Irã em fevereiro de 2026. Irã retaliou com mísseis contra bases americanas no Golfo. Conflito em escalada.",
+              },
+              {
+                icon: Skull,
+                country: "🇮🇷 Irã — Retaliação Regional",
+                status: "ESCALADA CRÍTICA",
+                statusColor: "text-alert",
+                casualties: "Mísseis contra Qatar, UAE, Kuwait",
+                desc: "Irã respondeu com ataques de mísseis e drones contra instalações americanas no Golfo Pérsico. Explosões em vários países.",
+              },
+              {
+                icon: Crosshair,
+                country: "🇰🇼 Kuwait — Estado de Alerta",
+                status: "ALERTA MÁXIMO",
+                statusColor: "text-warning",
+                casualties: "178 mísseis e 384 drones interceptados",
+                desc: "Forças kuwaitianas interceptaram centenas de projéteis iranianos. Incidente de fogo amigo derrubou jatos americanos. País em alerta máximo.",
+              },
+              {
+                icon: Globe,
+                country: "🇫🇷 França — Expansão Nuclear",
+                status: "CORRIDA NUCLEAR",
+                statusColor: "text-warning",
+                casualties: "Aumento do arsenal atômico anunciado",
+                desc: "Macron declarou: 'Quem quer ser livre tem que ser temido.' França anuncia maior expansão nuclear europeia desde a Guerra Fria.",
+              },
+              {
                 icon: Crosshair,
                 country: "🇺🇦 Ucrânia vs Rússia",
                 status: "GUERRA ATIVA",
@@ -503,6 +535,14 @@ const Index = () => {
                 statusColor: "text-alert",
                 casualties: "Milhares de vítimas",
                 desc: "M23 e grupos armados disputam minerais raros. Empresários do dossiê tinham interesses em cobalto e coltan.",
+              },
+              {
+                icon: Flame,
+                country: "🇻🇪 Venezuela — Operação EUA",
+                status: "INSTABILIDADE",
+                statusColor: "text-warning",
+                casualties: "Maduro capturado por forças americanas",
+                desc: "Operação militar dos EUA em 2026 capturou Nicolás Maduro. País em caos político. Conexões com rede de lavagem de dinheiro documentadas.",
               },
             ].map(({ icon: Icon, country, status, statusColor, casualties, desc }, i) => (
               <Card key={i} className="border-border bg-card p-4 md:p-5 hover:border-alert/30 transition-all duration-300">
