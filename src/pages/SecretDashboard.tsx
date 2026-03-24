@@ -57,38 +57,6 @@ const SecretDashboard = () => {
     return `https://translate.google.com/translate?sl=en&tl=pt&u=${encodeURIComponent(originalUrl)}`;
   };
 
-  // Loading
-  if (verified === null) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-8 h-8 border-2 border-terminal border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-muted-foreground text-sm font-mono">Verificando pagamento...</p>
-        </div>
-      </div>
-    );
-  }
-
-  // Blocked
-  if (verified === false) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center px-4">
-        <Card className="border-alert/30 bg-alert/5 p-8 max-w-md text-center">
-          <Lock className="w-12 h-12 text-alert mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-foreground mb-2">Acesso Negado</h2>
-          <p className="text-muted-foreground text-sm mb-6">
-            Nenhum pagamento confirmado encontrado. Faça o pagamento de R$ 4,99 para liberar.
-          </p>
-          <Button
-            className="bg-terminal hover:bg-terminal/90 text-terminal-foreground font-bold"
-            onClick={() => navigate("/")}
-          >
-            Ir para a Página Inicial
-          </Button>
-        </Card>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-background">

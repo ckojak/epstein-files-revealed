@@ -20,38 +20,6 @@ const ThankYou = () => {
     jefftube: "https://www.jefftube.net/"
   };
 
-  // Loading state
-  if (verified === null) {
-    return (
-      <div className="min-h-screen bg-[#050505] flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-8 h-8 border-2 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-neutral-400 text-sm font-mono">Verificando pagamento...</p>
-        </div>
-      </div>
-    );
-  }
-
-  // Blocked state
-  if (verified === false) {
-    return (
-      <div className="min-h-screen bg-[#050505] flex items-center justify-center px-4">
-        <Card className="border-red-500/30 bg-red-500/5 p-8 max-w-md text-center">
-          <Lock className="w-12 h-12 text-red-400 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-white mb-2">Acesso Negado</h2>
-          <p className="text-neutral-400 text-sm mb-6">
-            Nenhum pagamento confirmado foi encontrado. Faça o pagamento para liberar o acesso.
-          </p>
-          <Button
-            className="bg-green-500 hover:bg-green-400 text-black font-bold"
-            onClick={() => window.location.href = "/"}
-          >
-            Ir para a Página Inicial
-          </Button>
-        </Card>
-      </div>
-    );
-  }
 
   const crisisData = [
     {
