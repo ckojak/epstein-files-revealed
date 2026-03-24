@@ -51,7 +51,6 @@ const brazilHighlights = [
 ];
 
 const SecretDashboard = () => {
-  const verified = usePaymentVerification();
   const navigate = useNavigate();
 
   const getTranslateUrl = (originalUrl: string) => {
