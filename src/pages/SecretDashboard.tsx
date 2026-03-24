@@ -12,7 +12,7 @@ import {
   CheckCircle2, FileText, ExternalLink, Instagram, Database,
   AlertTriangle, Globe, Languages, Lock
 } from "lucide-react";
-import { usePaymentVerification } from "@/hooks/usePaymentVerification";
+
 
 const documents = [
   {
