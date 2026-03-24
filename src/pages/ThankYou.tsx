@@ -2,11 +2,7 @@ import { useEffect } from "react";
 import { CheckCircle2, Mail, Shield, ArrowRight, Database, Search, FileText, Lock, Sparkles, Globe, Flame, AlertTriangle, Skull, Crosshair, Zap, Radio } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { usePaymentVerification } from "@/hooks/usePaymentVerification";
-
 const ThankYou = () => {
-  const verified = usePaymentVerification();
-
   // Store email from URL params on mount
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
