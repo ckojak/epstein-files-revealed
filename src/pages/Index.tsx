@@ -440,53 +440,100 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Global Wars Section */}
+      {/* VAZAMENTO PRINCIPAL */}
+      <section className="py-12 md:py-16 px-4 bg-terminal/5 border-y border-terminal/20">
+        <div className="container mx-auto max-w-4xl">
+          <div className="flex items-center gap-2 mb-4">
+            <FileText className="w-5 h-5 text-terminal" />
+            <span className="text-[10px] font-mono font-bold text-terminal bg-terminal/10 px-2 py-0.5 rounded">📂 VAZAMENTO PRINCIPAL — STATUS: ATIVO</span>
+          </div>
+          <h3 className="text-lg md:text-2xl font-bold text-foreground mb-3">O Dossiê Epstein BR</h3>
+          <p className="text-sm text-muted-foreground mb-6">
+            A tradução bruta de mais de 5.000 páginas do processo original. Nomes da elite política e financeira com ligações à rede. 
+            O que a TV disse que não existia, nós publicamos.
+          </p>
+          <Button
+            size="lg"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="bg-terminal hover:bg-terminal/90 text-terminal-foreground font-bold px-8 py-6 shadow-glow-green"
+          >
+            <LockOpen className="w-5 h-5 mr-2" />
+            LIBERAR ACESSO AO DOSSIÊ — R$ 4,99
+          </Button>
+        </div>
+      </section>
+
+      {/* RADAR DE COLAPSO GLOBAL */}
       <section className="py-12 md:py-16 px-4 bg-alert/5 border-y border-alert/20">
         <div className="container mx-auto max-w-4xl">
-          <div className="flex items-center gap-3 mb-2">
-            <Globe className="w-5 h-5 text-alert" />
+          <div className="flex items-center gap-3 mb-1">
+            <AlertTriangle className="w-5 h-5 text-alert animate-pulse" />
             <h3 className="text-lg md:text-2xl font-bold text-foreground">
-              Guerras & Conflitos Globais em <span className="text-alert">2026</span>
+              🚨 RADAR DE COLAPSO GLOBAL
             </h3>
             <div className="flex-1 h-px bg-border" />
           </div>
-          <p className="text-xs text-muted-foreground mb-6">
-            Epstein financiava e conectava líderes envolvidos nesses conflitos. Os documentos revelam tudo.
+          <p className="text-[10px] font-mono text-alert/70 mb-6 uppercase tracking-wider">
+            Atualização em tempo real — Março/2026
           </p>
 
           <div className="grid md:grid-cols-2 gap-4 mb-8">
             {[
               {
+                icon: Skull,
+                country: "🏦 Escândalo Banco Master & STF",
+                status: "DELAÇÃO PREMIADA",
+                statusColor: "text-alert",
+                casualties: "Ministros do STF e Congresso em pânico",
+                desc: "Daniel Vorcaro preso e negociando delação. Celular revela ligações íntimas com a cúpula de Brasília. Dias Toffoli afastado da relatoria. Sistema financeiro e judiciário apanhados na mesma rede.",
+              },
+              {
+                icon: Globe,
+                country: "💻 Ataque Hacker ao BTG Pactual",
+                status: "CIBERATAQUE",
+                statusColor: "text-alert",
+                casualties: "R$ 100+ milhões drenados",
+                desc: "BTG sofreu ataque massivo. PIX desligado temporariamente. Mais de R$ 100 milhões drenados por falha interna. A segurança do dinheiro digitalizado acabou de cair por terra.",
+              },
+              {
                 icon: Flame,
-                country: "🇺🇸🇮🇱 EUA & Israel vs Irã",
+                country: "🇺🇸🇮🇱 EUA/Israel vs Irã — Ultimato",
                 status: "GUERRA ATIVA",
                 statusColor: "text-alert",
-                casualties: "Ataques aéreos massivos desde 28/Fev",
-                desc: "EUA e Israel lançaram bombardeios contra o Irã em fevereiro de 2026. Irã retaliou com mísseis contra bases americanas no Golfo. Conflito em escalada.",
+                casualties: "20% do petróleo mundial em risco",
+                desc: "Trump deu ultimato de 48h ao Irã: reabrir o Estreito de Ormuz ou ter a rede elétrica destruída. Irã promete destruir infraestrutura americana. Blecautes em Teerão. Um passo em falso e a economia global paralisa.",
               },
               {
                 icon: Skull,
+                country: "🇨🇺 Cuba — Colapso Total",
+                status: "APAGÃO NACIONAL",
+                statusColor: "text-alert",
+                casualties: "11 milhões de pessoas no escuro",
+                desc: "2º apagão nacional em menos de uma semana. Bloqueio internacional dos EUA + falência da infraestrutura estatal. País completamente desconectado.",
+              },
+              {
+                icon: Crosshair,
                 country: "🇮🇷 Irã — Retaliação Regional",
                 status: "ESCALADA CRÍTICA",
                 statusColor: "text-alert",
                 casualties: "Mísseis contra Qatar, UAE, Kuwait",
-                desc: "Irã respondeu com ataques de mísseis e drones contra instalações americanas no Golfo Pérsico. Explosões em vários países.",
+                desc: "Irã respondeu com mísseis e drones contra instalações americanas. Explosões em vários países do Golfo.",
               },
               {
                 icon: Crosshair,
-                country: "🇰🇼 Kuwait — Estado de Alerta",
-                status: "ALERTA MÁXIMO",
+                country: "🇰🇼 Kuwait — Alerta Máximo",
+                status: "ALERTA",
                 statusColor: "text-warning",
                 casualties: "178 mísseis e 384 drones interceptados",
-                desc: "Forças kuwaitianas interceptaram centenas de projéteis iranianos. Incidente de fogo amigo derrubou jatos americanos. País em alerta máximo.",
+                desc: "Forças kuwaitianas interceptaram centenas de projéteis iranianos. Fogo amigo derrubou jatos americanos.",
               },
               {
                 icon: Globe,
                 country: "🇫🇷 França — Expansão Nuclear",
                 status: "CORRIDA NUCLEAR",
                 statusColor: "text-warning",
-                casualties: "Aumento do arsenal atômico anunciado",
-                desc: "Macron declarou: 'Quem quer ser livre tem que ser temido.' França anuncia maior expansão nuclear europeia desde a Guerra Fria.",
+                casualties: "Maior expansão nuclear europeia",
+                desc: "Macron: 'Quem quer ser livre tem que ser temido.' Maior expansão nuclear europeia desde a Guerra Fria.",
               },
               {
                 icon: Crosshair,
@@ -494,55 +541,55 @@ const Index = () => {
                 status: "GUERRA ATIVA",
                 statusColor: "text-alert",
                 casualties: "~77.900 baixas (12 meses)",
-                desc: "Conflito de larga escala desde 2022. Documentos Epstein revelam conexões com oligarcas russos e ucranianos que financiavam a rede.",
+                desc: "Documentos Epstein revelam conexões com oligarcas russos e ucranianos que financiavam a rede.",
               },
               {
                 icon: Flame,
                 country: "🇸🇩 Sudão — Guerra Civil",
                 status: "CRISE HUMANITÁRIA",
                 statusColor: "text-warning",
-                casualties: "~19.600 baixas (12 meses)",
-                desc: "RSF vs Exército Sudanês. Milhões de deslocados. Nomes ligados ao tráfico de armas aparecem em e-mails do dossiê.",
+                casualties: "Milhões de deslocados",
+                desc: "RSF vs Exército Sudanês. Nomes ligados ao tráfico de armas aparecem em e-mails do dossiê.",
               },
               {
                 icon: Skull,
-                country: "🇵🇸 Palestina — Gaza",
-                status: "CESSAR-FOGO FRÁGIL",
+                country: "🇵🇸 Gaza — Conflito",
+                status: "MONITORANDO",
                 statusColor: "text-warning",
-                casualties: "~18.300 baixas (12 meses)",
-                desc: "Ofensiva israelense iniciada em 2023. Documentos revelam reuniões de Epstein com líderes de ambos os lados.",
+                casualties: "~18.300 baixas",
+                desc: "Documentos revelam reuniões de Epstein com líderes de ambos os lados.",
               },
               {
                 icon: Crosshair,
                 country: "🇲🇲 Myanmar — Guerra Civil",
                 status: "GUERRA ATIVA",
                 statusColor: "text-alert",
-                casualties: "~15.100 baixas (12 meses)",
-                desc: "Resistência popular contra junta militar desde 2021. Rede de Epstein ligada a tráfico humano na região.",
+                casualties: "~15.100 baixas",
+                desc: "Rede de Epstein ligada a tráfico humano na região.",
               },
               {
                 icon: Flame,
                 country: "🇳🇬 Nigéria — Insurgência",
-                status: "TERRORISMO ATIVO",
+                status: "TERRORISMO",
                 statusColor: "text-alert",
-                casualties: "~11.900 baixas (12 meses)",
-                desc: "Boko Haram e ISWAP continuam ataques. Fluxos financeiros ilícitos conectados à rede de influência documentada.",
+                casualties: "~11.900 baixas",
+                desc: "Boko Haram e ISWAP. Fluxos financeiros ilícitos conectados.",
               },
               {
                 icon: Crosshair,
-                country: "🇨🇩 RD Congo — Conflito Armado",
+                country: "🇨🇩 RD Congo — Conflito",
                 status: "GUERRA ATIVA",
                 statusColor: "text-alert",
-                casualties: "Milhares de vítimas",
-                desc: "M23 e grupos armados disputam minerais raros. Empresários do dossiê tinham interesses em cobalto e coltan.",
+                casualties: "Disputa por cobalto e coltan",
+                desc: "Empresários do dossiê tinham interesses em minerais raros na região.",
               },
               {
                 icon: Flame,
                 country: "🇻🇪 Venezuela — Operação EUA",
                 status: "INSTABILIDADE",
                 statusColor: "text-warning",
-                casualties: "Maduro capturado por forças americanas",
-                desc: "Operação militar dos EUA em 2026 capturou Nicolás Maduro. País em caos político. Conexões com rede de lavagem de dinheiro documentadas.",
+                casualties: "Maduro capturado",
+                desc: "Operação militar dos EUA em 2026 capturou Nicolás Maduro. Conexões com lavagem de dinheiro documentadas.",
               },
             ].map(({ icon: Icon, country, status, statusColor, casualties, desc }, i) => (
               <Card key={i} className="border-border bg-card p-4 md:p-5 hover:border-alert/30 transition-all duration-300">
@@ -565,8 +612,8 @@ const Index = () => {
 
           <div className="text-center">
             <p className="text-sm text-muted-foreground mb-4">
-              Os documentos de Epstein revelam <span className="text-foreground font-semibold">conexões ocultas</span> entre sua rede e 
-              financiadores de conflitos armados em todo o mundo. <span className="text-alert font-semibold">Nomes, datas e valores</span> estão nos arquivos.
+              Os documentos revelam <span className="text-foreground font-semibold">conexões ocultas</span> entre a rede Epstein e financiadores de conflitos. 
+              <span className="text-alert font-semibold"> Nomes, datas e valores</span> estão nos arquivos.
             </p>
             <Button
               size="lg"
@@ -574,7 +621,7 @@ const Index = () => {
               className="bg-alert hover:bg-alert/90 text-white font-bold px-8 py-6"
             >
               <Eye className="w-5 h-5 mr-2" />
-              VER CONEXÕES COM GUERRAS — R$ 4,99
+              VER TUDO NO DOSSIÊ — R$ 4,99
             </Button>
           </div>
         </div>
