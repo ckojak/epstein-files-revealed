@@ -185,7 +185,7 @@ const Index = () => {
       <div className="bg-alert/10 border-b border-alert/30 py-2 px-4 animate-pulse-slow">
         <div className="container mx-auto text-center">
           <span className="text-xs md:text-sm font-mono text-alert">
-            🔴 URGENTE: Novos documentos liberados pela Suprema Corte dos EUA em Janeiro/2026
+            🔴 URGENTE (19/06/2026): Acordo EUA-Irã em colapso após ataques de Israel no Líbano
           </span>
         </div>
       </div>
@@ -201,6 +201,69 @@ const Index = () => {
         </div>
       </header>
 
+      {/* BREAKING NEWS — TOPO DE CONVERSÃO */}
+      <section className="bg-gradient-to-b from-alert/15 via-alert/5 to-transparent border-b border-alert/30 py-8 md:py-10 px-4">
+        <div className="container mx-auto max-w-4xl">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-alert opacity-75" />
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-alert" />
+            </span>
+            <span className="text-[10px] md:text-xs font-mono font-bold text-alert uppercase tracking-widest">
+              AO VIVO — Atualizações das últimas 48h
+            </span>
+          </div>
+
+          <h2 className="text-2xl md:text-4xl font-black text-center text-foreground leading-tight mb-3">
+            O mundo está <span className="text-alert">pegando fogo</span>.<br className="hidden md:block" />
+            E a mídia te mostra <span className="text-warning">5%</span>.
+          </h2>
+          <p className="text-sm md:text-base text-muted-foreground text-center max-w-2xl mx-auto mb-5">
+            Guerras, Copa do Mundo, polêmicas da FIFA, mercados em colapso, dossiês secretos —
+            tudo conectado. Acesso completo às notícias exclusivas e ao dossiê por <span className="text-terminal font-bold">R$ 4,99</span>.
+          </p>
+
+          {/* Ticker */}
+          <div className="relative overflow-hidden border-y border-alert/20 bg-background/50 py-2 mb-5">
+            <div className="flex gap-8 whitespace-nowrap animate-marquee">
+              {[
+                "🔴 Israel ataca sul do Líbano e adia assinatura do acordo na Suíça",
+                "⚡ 555 drones abatidos sobre a Rússia — refinaria de Moscou em chamas",
+                "🏆 Copa de Trump: FIFA acusada de servir à Casa Branca",
+                "🇧🇷 Neymar mantido na lista após lobby de deputado — Ancelotti cede",
+                "🛢️ Estreito de Ormuz reaberto destrava 20% do petróleo mundial",
+                "💰 CBDCs aceleram: dinheiro digital programável já em fase de testes",
+                "📉 G7 anuncia novas sanções a Moscou — Kremlin chama líderes de 'estúpidos'",
+                "🚨 Documentos Epstein-BR: novos nomes da elite vazam esta semana",
+                "🔴 Israel ataca sul do Líbano e adia assinatura do acordo na Suíça",
+                "⚡ 555 drones abatidos sobre a Rússia — refinaria de Moscou em chamas",
+                "🏆 Copa de Trump: FIFA acusada de servir à Casa Branca",
+                "🇧🇷 Neymar mantido na lista após lobby de deputado — Ancelotti cede",
+                "🛢️ Estreito de Ormuz reaberto destrava 20% do petróleo mundial",
+                "💰 CBDCs aceleram: dinheiro digital programável já em fase de testes",
+                "📉 G7 anuncia novas sanções a Moscou — Kremlin chama líderes de 'estúpidos'",
+                "🚨 Documentos Epstein-BR: novos nomes da elite vazam esta semana",
+              ].map((t, i) => (
+                <span key={i} className="text-xs md:text-sm font-mono text-foreground/80">
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex justify-center">
+            <Button
+              size="lg"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="bg-terminal hover:bg-terminal/90 text-terminal-foreground font-bold px-6 md:px-10 py-6 shadow-glow-green animate-glow-green"
+            >
+              <LockOpen className="w-5 h-5 mr-2" />
+              DESBLOQUEAR NOTÍCIAS EXCLUSIVAS — R$ 4,99
+            </Button>
+          </div>
+        </div>
+      </section>
+
       {/* Hero Section */}
       <section className="py-12 md:py-20 px-4">
         <div className="container mx-auto max-w-4xl text-center">
@@ -210,7 +273,7 @@ const Index = () => {
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-alert/10 border border-alert/30 mt-4 mb-6">
             <span className="w-2 h-2 bg-alert rounded-full animate-pulse" />
             <span className="text-xs md:text-sm font-mono text-alert uppercase tracking-wider">
-              Documentos Recém-Liberados — Jan/2026
+              Documentos Recém-Liberados — Jun/2026
             </span>
           </div>
 
@@ -505,6 +568,60 @@ const Index = () => {
                 iconColor: "text-alert",
                 title: "Tensões Globais e a Cortina de Fumaça: O que a mídia tradicional está a esconder esta semana.",
                 subtitle: "A movimentação de dados e ativos que indica uma mudança drástica no mercado mundial.",
+              },
+              {
+                icon: Flame,
+                tag: "[GUERRA]",
+                tagClass: "text-alert bg-alert/10 border-alert/30",
+                iconBg: "bg-alert/10",
+                iconColor: "text-alert",
+                title: "Acordo EUA–Irã de 14 pontos em risco: ataques de Israel no Líbano adiam assinatura na Suíça.",
+                subtitle: "Trump assinou cessar-fogo, mas confrontos no sul libanês reabrem o conflito (19/06/2026).",
+              },
+              {
+                icon: Crosshair,
+                tag: "[GUERRA]",
+                tagClass: "text-alert bg-alert/10 border-alert/30",
+                iconBg: "bg-alert/10",
+                iconColor: "text-alert",
+                title: "Drones atingem refinaria em Moscou: 555 abatidos pela Rússia, aeroporto fechado, Kiev bombardeada.",
+                subtitle: "Maior troca de ataques aéreos do ano. G7 discute novas sanções a Moscou (18/06/2026).",
+              },
+              {
+                icon: Star,
+                tag: "[COPA DO MUNDO 2026]",
+                tagClass: "text-warning bg-warning/10 border-warning/30",
+                iconBg: "bg-warning/10",
+                iconColor: "text-warning",
+                title: "Copa de Trump: ingressos extorsivos, vistos negados e Infantino acusado de servir à Casa Branca.",
+                subtitle: "FIFA enfrenta crise de credibilidade às vésperas da abertura nos EUA, Canadá e México.",
+              },
+              {
+                icon: Users,
+                tag: "[SELEÇÃO BRASILEIRA]",
+                tagClass: "text-warning bg-warning/10 border-warning/30",
+                iconBg: "bg-warning/10",
+                iconColor: "text-warning",
+                title: "Lobby por Neymar vira 'grande circo': deputado pressiona Ancelotti e atleta é cortado da lista.",
+                subtitle: "Bastidores das 48h que mantiveram o santista na convocação apesar da lesão grau 2.",
+              },
+              {
+                icon: AlertTriangle,
+                tag: "[CBF & PODER]",
+                tagClass: "text-warning bg-warning/10 border-warning/30",
+                iconBg: "bg-warning/10",
+                iconColor: "text-warning",
+                title: "Guerra política racha CBF no meio da Copa: Samir Xaud sob ataque e jejum de 24 anos pesa.",
+                subtitle: "Disputa interna pode explodir antes mesmo da estreia da seleção brasileira no mundial.",
+              },
+              {
+                icon: Zap,
+                tag: "[PETRÓLEO]",
+                tagClass: "text-terminal bg-terminal/10 border-terminal/30",
+                iconBg: "bg-terminal/10",
+                iconColor: "text-terminal",
+                title: "Estreito de Ormuz reaberto: Trump destrava 20% do petróleo mundial e segura o dólar.",
+                subtitle: "Acordo bilateral reorganiza o mapa energético global em tempo recorde.",
               },
             ].map(({ icon: Icon, tag, tagClass, iconBg, iconColor, title, subtitle }, i) => (
               <Card key={i} className="border-border bg-card p-4 md:p-5 hover:border-alert/30 transition-all duration-300 flex flex-col gap-3">
