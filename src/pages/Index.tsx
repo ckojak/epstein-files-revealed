@@ -463,157 +463,73 @@ const Index = () => {
         </div>
       </section>
 
-      {/* RADAR DE COLAPSO GLOBAL */}
+      {/* NOTÍCIAS DE HOJE */}
       <section className="py-12 md:py-16 px-4 bg-alert/5 border-y border-alert/20">
         <div className="container mx-auto max-w-4xl">
           <div className="flex items-center gap-3 mb-1">
-            <AlertTriangle className="w-5 h-5 text-alert animate-pulse" />
+            <Newspaper className="w-5 h-5 text-alert animate-pulse" />
             <h3 className="text-lg md:text-2xl font-bold text-foreground">
-              🚨 RADAR DE COLAPSO GLOBAL
+              📰 NOTÍCIAS DE HOJE
             </h3>
             <div className="flex-1 h-px bg-border" />
           </div>
           <p className="text-[10px] font-mono text-alert/70 mb-6 uppercase tracking-wider">
-            Atualização em tempo real — Março/2026
+            Atualização investigativa — Junho/2026
           </p>
 
-          <div className="grid md:grid-cols-2 gap-4 mb-8">
+          <div className="grid md:grid-cols-3 gap-4 mb-8">
             {[
               {
-                icon: Skull,
-                country: "🏦 Escândalo Banco Master & STF",
-                status: "DELAÇÃO PREMIADA",
-                statusColor: "text-alert",
-                casualties: "Ministros do STF e Congresso em pânico",
-                desc: "Daniel Vorcaro preso e negociando delação. Celular revela ligações íntimas com a cúpula de Brasília. Dias Toffoli afastado da relatoria. Sistema financeiro e judiciário apanhados na mesma rede.",
+                icon: Eye,
+                tag: "[VITÓRIA CONTRA O SISTEMA]",
+                tagClass: "text-terminal bg-terminal/10 border-terminal/30",
+                iconBg: "bg-terminal/10",
+                iconColor: "text-terminal",
+                title: "O Algoritmo Falhou: Como a Justiça brasileira forçou a Meta a devolver o controle aos criadores.",
+                subtitle: "Os bastidores do apagão de 54 dias e a queda do bloqueio automatizado.",
+              },
+              {
+                icon: TrendingUp,
+                tag: "[ECONOMIA]",
+                tagClass: "text-warning bg-warning/10 border-warning/30",
+                iconBg: "bg-warning/10",
+                iconColor: "text-warning",
+                title: "A nova fase das CBDCs: O que os governos não estão revelando sobre o rastreio financeiro.",
+                subtitle: "Documentos recentes mostram a implementação acelerada do dinheiro digital programável.",
               },
               {
                 icon: Globe,
-                country: "💻 Ataque Hacker ao BTG Pactual",
-                status: "CIBERATAQUE",
-                statusColor: "text-alert",
-                casualties: "R$ 100+ milhões drenados",
-                desc: "BTG sofreu ataque massivo. PIX desligado temporariamente. Mais de R$ 100 milhões drenados por falha interna. A segurança do dinheiro digitalizado acabou de cair por terra.",
+                tag: "[GEOPOLÍTICA]",
+                tagClass: "text-alert bg-alert/10 border-alert/30",
+                iconBg: "bg-alert/10",
+                iconColor: "text-alert",
+                title: "Tensões Globais e a Cortina de Fumaça: O que a mídia tradicional está a esconder esta semana.",
+                subtitle: "A movimentação de dados e ativos que indica uma mudança drástica no mercado mundial.",
               },
-              {
-                icon: Flame,
-                country: "🇺🇸🇮🇱 EUA/Israel vs Irã — Ultimato",
-                status: "GUERRA ATIVA",
-                statusColor: "text-alert",
-                casualties: "20% do petróleo mundial em risco",
-                desc: "Trump deu ultimato de 48h ao Irã: reabrir o Estreito de Ormuz ou ter a rede elétrica destruída. Irã promete destruir infraestrutura americana. Blecautes em Teerão. Um passo em falso e a economia global paralisa.",
-              },
-              {
-                icon: Skull,
-                country: "🇨🇺 Cuba — Colapso Total",
-                status: "APAGÃO NACIONAL",
-                statusColor: "text-alert",
-                casualties: "11 milhões de pessoas no escuro",
-                desc: "2º apagão nacional em menos de uma semana. Bloqueio internacional dos EUA + falência da infraestrutura estatal. País completamente desconectado.",
-              },
-              {
-                icon: Crosshair,
-                country: "🇮🇷 Irã — Retaliação Regional",
-                status: "ESCALADA CRÍTICA",
-                statusColor: "text-alert",
-                casualties: "Mísseis contra Qatar, UAE, Kuwait",
-                desc: "Irã respondeu com mísseis e drones contra instalações americanas. Explosões em vários países do Golfo.",
-              },
-              {
-                icon: Crosshair,
-                country: "🇰🇼 Kuwait — Alerta Máximo",
-                status: "ALERTA",
-                statusColor: "text-warning",
-                casualties: "178 mísseis e 384 drones interceptados",
-                desc: "Forças kuwaitianas interceptaram centenas de projéteis iranianos. Fogo amigo derrubou jatos americanos.",
-              },
-              {
-                icon: Globe,
-                country: "🇫🇷 França — Expansão Nuclear",
-                status: "CORRIDA NUCLEAR",
-                statusColor: "text-warning",
-                casualties: "Maior expansão nuclear europeia",
-                desc: "Macron: 'Quem quer ser livre tem que ser temido.' Maior expansão nuclear europeia desde a Guerra Fria.",
-              },
-              {
-                icon: Crosshair,
-                country: "🇺🇦 Ucrânia vs Rússia",
-                status: "GUERRA ATIVA",
-                statusColor: "text-alert",
-                casualties: "~77.900 baixas (12 meses)",
-                desc: "Documentos Epstein revelam conexões com oligarcas russos e ucranianos que financiavam a rede.",
-              },
-              {
-                icon: Flame,
-                country: "🇸🇩 Sudão — Guerra Civil",
-                status: "CRISE HUMANITÁRIA",
-                statusColor: "text-warning",
-                casualties: "Milhões de deslocados",
-                desc: "RSF vs Exército Sudanês. Nomes ligados ao tráfico de armas aparecem em e-mails do dossiê.",
-              },
-              {
-                icon: Skull,
-                country: "🇵🇸 Gaza — Conflito",
-                status: "MONITORANDO",
-                statusColor: "text-warning",
-                casualties: "~18.300 baixas",
-                desc: "Documentos revelam reuniões de Epstein com líderes de ambos os lados.",
-              },
-              {
-                icon: Crosshair,
-                country: "🇲🇲 Myanmar — Guerra Civil",
-                status: "GUERRA ATIVA",
-                statusColor: "text-alert",
-                casualties: "~15.100 baixas",
-                desc: "Rede de Epstein ligada a tráfico humano na região.",
-              },
-              {
-                icon: Flame,
-                country: "🇳🇬 Nigéria — Insurgência",
-                status: "TERRORISMO",
-                statusColor: "text-alert",
-                casualties: "~11.900 baixas",
-                desc: "Boko Haram e ISWAP. Fluxos financeiros ilícitos conectados.",
-              },
-              {
-                icon: Crosshair,
-                country: "🇨🇩 RD Congo — Conflito",
-                status: "GUERRA ATIVA",
-                statusColor: "text-alert",
-                casualties: "Disputa por cobalto e coltan",
-                desc: "Empresários do dossiê tinham interesses em minerais raros na região.",
-              },
-              {
-                icon: Flame,
-                country: "🇻🇪 Venezuela — Operação EUA",
-                status: "INSTABILIDADE",
-                statusColor: "text-warning",
-                casualties: "Maduro capturado",
-                desc: "Operação militar dos EUA em 2026 capturou Nicolás Maduro. Conexões com lavagem de dinheiro documentadas.",
-              },
-            ].map(({ icon: Icon, country, status, statusColor, casualties, desc }, i) => (
-              <Card key={i} className="border-border bg-card p-4 md:p-5 hover:border-alert/30 transition-all duration-300">
-                <div className="flex items-start gap-3">
-                  <div className="p-2 bg-alert/10 rounded-lg shrink-0">
-                    <Icon className="w-4 h-4 text-alert" />
+            ].map(({ icon: Icon, tag, tagClass, iconBg, iconColor, title, subtitle }, i) => (
+              <Card key={i} className="border-border bg-card p-4 md:p-5 hover:border-alert/30 transition-all duration-300 flex flex-col gap-3">
+                <div className="flex items-center justify-between gap-2">
+                  <div className={`p-2 rounded-lg ${iconBg}`}>
+                    <Icon className={`w-4 h-4 ${iconColor}`} />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between gap-2 mb-1">
-                      <h4 className="font-bold text-foreground text-sm">{country}</h4>
-                      <span className={`text-[10px] font-mono font-bold ${statusColor} shrink-0`}>{status}</span>
-                    </div>
-                    <p className="text-[11px] text-terminal font-mono mb-1">{casualties}</p>
-                    <p className="text-xs text-muted-foreground leading-relaxed">{desc}</p>
-                  </div>
+                  <span className={`text-[9px] md:text-[10px] font-mono font-bold uppercase tracking-wider border px-2 py-0.5 rounded ${tagClass}`}>
+                    {tag}
+                  </span>
                 </div>
+                <h4 className="font-bold text-foreground text-sm md:text-base leading-snug">
+                  {title}
+                </h4>
+                <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
+                  {subtitle}
+                </p>
               </Card>
             ))}
           </div>
 
           <div className="text-center">
             <p className="text-sm text-muted-foreground mb-4">
-              Os documentos revelam <span className="text-foreground font-semibold">conexões ocultas</span> entre a rede Epstein e financiadores de conflitos. 
-              <span className="text-alert font-semibold"> Nomes, datas e valores</span> estão nos arquivos.
+              As conexões entre cada manchete estão <span className="text-foreground font-semibold">documentadas no dossiê</span>.
+              <span className="text-alert font-semibold"> Nomes, datas e valores</span> que a mídia silenciou.
             </p>
             <Button
               size="lg"
