@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { 
   LockOpen, Shield, Eye, AlertTriangle, FileText, Plane, Users, 
   MessageCircle, Clock, TrendingUp, CheckCircle2, Lock, Zap, Star, Loader2,
-  Flame, Globe, Crosshair, Skull
+  Flame, Globe, Crosshair, Skull, Newspaper
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
