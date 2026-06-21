@@ -79,6 +79,36 @@ const ThankYou = () => {
       detail: "Maduro capturado. Conexões com lavagem de dinheiro nos documentos."
     },
   ];
+  const dossieData = [
+    {
+      icon: Shield,
+      borderColor: "green",
+      tag: "VITÓRIA CONTRA O SISTEMA",
+      title: "O Algoritmo Falhou.",
+      content: "A Justiça brasileira forçou a Meta a devolver o controle da página aos criadores após 54 dias de apagão forçado. O bloqueio automatizado foi derrubado por vias legais, expondo a falha no sistema de censura das Big Techs. As diretrizes ocultas não resistiram à ordem judicial."
+    },
+    {
+      icon: Database,
+      borderColor: "green",
+      tag: "ECONOMIA",
+      title: "A nova fase das CBDCs.",
+      content: "Documentos confidenciais revelam a implementação acelerada do dinheiro digital programável pelos bancos centrais. O objetivo principal não é a facilidade de transação, mas o rastreio absoluto. Pilotos em andamento mostram a capacidade de bloquear fundos instantaneamente caso o usuário não cumpra pontuações sociais."
+    },
+    {
+      icon: Globe,
+      borderColor: "green",
+      tag: "GEOPOLÍTICA",
+      title: "Tensões Globais e a Cortina de Fumaça.",
+      content: "Enquanto a mídia tradicional foca em escândalos locais, uma movimentação massiva de ativos e dados indica uma preparação para um colapso em cadeias de suprimentos estratégicas. Relatórios independentes apontam para um realinhamento de poder que afetará o acesso à internet e energia nos próximos 6 meses."
+    },
+    {
+      icon: FileText,
+      borderColor: "green",
+      tag: "ARQUIVO FOTOGRÁFICO",
+      title: "Foto #47: Reunião em Angra dos Reis com empresário brasileiro.",
+      content: "Relatório completo sobre o encontro à porta fechada no litoral do Rio de Janeiro. Os documentos detalham a articulação entre grandes empresários do setor de infraestrutura e agentes estrangeiros para a criação de redes de comunicação paralelas imunes a bloqueios estatais. As atas revelam o fluxo de capital e os acordos de blindagem digital firmados fora do radar público."
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-[#050505] flex flex-col font-sans relative overflow-hidden">
