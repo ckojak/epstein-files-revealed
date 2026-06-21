@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { CheckCircle2, Mail, Shield, ArrowRight, Database, Search, FileText, Lock, Sparkles, Globe, Flame, AlertTriangle, Skull, Crosshair, Zap, Radio } from "lucide-react";
+import { CheckCircle2, Mail, Shield, ArrowRight, Database, Search, FileText, Lock, Sparkles, Globe, Flame, AlertTriangle, Skull, Crosshair, Zap, Radio, Unlock } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 const ThankYou = () => {
@@ -79,6 +79,36 @@ const ThankYou = () => {
       detail: "Maduro capturado. Conexões com lavagem de dinheiro nos documentos."
     },
   ];
+  const dossieData = [
+    {
+      icon: Shield,
+      borderColor: "green",
+      tag: "VITÓRIA CONTRA O SISTEMA",
+      title: "O Algoritmo Falhou.",
+      content: "A Justiça brasileira forçou a Meta a devolver o controle da página aos criadores após 54 dias de apagão forçado. O bloqueio automatizado foi derrubado por vias legais, expondo a falha no sistema de censura das Big Techs. As diretrizes ocultas não resistiram à ordem judicial."
+    },
+    {
+      icon: Database,
+      borderColor: "green",
+      tag: "ECONOMIA",
+      title: "A nova fase das CBDCs.",
+      content: "Documentos confidenciais revelam a implementação acelerada do dinheiro digital programável pelos bancos centrais. O objetivo principal não é a facilidade de transação, mas o rastreio absoluto. Pilotos em andamento mostram a capacidade de bloquear fundos instantaneamente caso o usuário não cumpra pontuações sociais."
+    },
+    {
+      icon: Globe,
+      borderColor: "green",
+      tag: "GEOPOLÍTICA",
+      title: "Tensões Globais e a Cortina de Fumaça.",
+      content: "Enquanto a mídia tradicional foca em escândalos locais, uma movimentação massiva de ativos e dados indica uma preparação para um colapso em cadeias de suprimentos estratégicas. Relatórios independentes apontam para um realinhamento de poder que afetará o acesso à internet e energia nos próximos 6 meses."
+    },
+    {
+      icon: FileText,
+      borderColor: "green",
+      tag: "ARQUIVO FOTOGRÁFICO",
+      title: "Foto #47: Reunião em Angra dos Reis com empresário brasileiro.",
+      content: "Relatório completo sobre o encontro à porta fechada no litoral do Rio de Janeiro. Os documentos detalham a articulação entre grandes empresários do setor de infraestrutura e agentes estrangeiros para a criação de redes de comunicação paralelas imunes a bloqueios estatais. As atas revelam o fluxo de capital e os acordos de blindagem digital firmados fora do radar público."
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-[#050505] flex flex-col font-sans relative overflow-hidden">
@@ -124,6 +154,32 @@ const ThankYou = () => {
             <p className="text-sm text-blue-300/90">
               Uma cópia com todos os links também foi enviada para o seu e-mail. <strong className="text-blue-200">Verifique sua caixa de entrada.</strong>
             </p>
+          </div>
+
+          {/* DOSSIÊS DESTRANCADOS — ACESSO TOTAL */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 mb-1">
+              <Unlock className="w-5 h-5 text-green-400" />
+              <h3 className="font-bold text-white text-base">DOSSIÊS DESTRANCADOS — ACESSO TOTAL</h3>
+            </div>
+            <p className="text-[10px] font-mono text-green-400/70 mb-4 uppercase tracking-wider">Sem censura · Sem blur · Sem botões de bloqueio</p>
+
+            {dossieData.map((dossie, i) => (
+              <Card key={i} className={`border-${dossie.borderColor}-500/20 bg-[#0a0a0a] p-5 md:p-6`}>
+                <div className="flex items-start gap-3 mb-3">
+                  <div className="p-2 bg-green-500/10 rounded-lg shrink-0">
+                    <dossie.icon className="w-5 h-5 text-green-400" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-mono font-bold text-green-400 bg-green-500/10 px-2 py-0.5 rounded">{dossie.tag}</span>
+                    <h4 className="font-bold text-white text-base mt-1.5">{dossie.title}</h4>
+                  </div>
+                </div>
+                <p className="text-sm text-neutral-300 leading-relaxed">
+                  {dossie.content}
+                </p>
+              </Card>
+            ))}
           </div>
 
           {/* Main CTA */}
