@@ -1,11 +1,19 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { 
   LockOpen, Shield, Eye, AlertTriangle, FileText, Plane, Users, 
   MessageCircle, Clock, TrendingUp, CheckCircle2, Lock, Zap, Star, Loader2,
-  Flame, Globe, Crosshair, Skull, Newspaper
+  Flame, Globe, Crosshair, Skull, Newspaper, QrCode, CheckCheck
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -135,12 +143,22 @@ const Index = () => {
   const mentions = useAnimatedNumber(23);
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPixQR, setShowPixQR] = useState(false);
+  const navigate = useNavigate();
+  const isDev = import.meta.env.DEV;
 
   const handleCheckout = async () => {
     if (!email || !email.includes("@")) {
       toast.error("Digite um e-mail válido para receber o acesso.");
       return;
     }
+
+    // DEV MODE: show simulated PIX QR modal instead of redirecting to MercadoPago
+    if (isDev) {
+      setShowPixQR(true);
+      return;
+    }
+
     setLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke("create-preference", {
@@ -158,6 +176,43 @@ const Index = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  // Realtime listener: redirect to /obrigado as soon as this email's payment is approved
+  useEffect(() => {
+    if (!email || !email.includes("@")) return;
+
+    const channel = supabase
+      .channel(`payments-${email}`)
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "payments",
+          filter: `email=eq.${email}`,
+        },
+        (payload) => {
+          const status = (payload.new as { status?: string } | null)?.status;
+          if (status === "approved") {
+            sessionStorage.setItem("epstein_paid_email", email);
+            toast.success("Pagamento aprovado! Redirecionando...");
+            navigate(`/obrigado?external_reference=${encodeURIComponent(email)}&collection_status=approved`);
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [email, navigate]);
+
+  const simulateApproval = () => {
+    const fakeEmail = email && email.includes("@") ? email : "teste@dev.local";
+    sessionStorage.setItem("epstein_paid_email", fakeEmail);
+    toast.success("[DEV] Pagamento simulado aprovado.");
+    navigate(`/obrigado?external_reference=${encodeURIComponent(fakeEmail)}&collection_status=approved`);
   };
 
   // Countdown timer (resets every 24h)
