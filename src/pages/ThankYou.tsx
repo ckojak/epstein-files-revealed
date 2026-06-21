@@ -126,6 +126,32 @@ const ThankYou = () => {
             </p>
           </div>
 
+          {/* DOSSIÊS DESTRANCADOS — ACESSO TOTAL */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 mb-1">
+              <Unlock className="w-5 h-5 text-green-400" />
+              <h3 className="font-bold text-white text-base">DOSSIÊS DESTRANCADOS — ACESSO TOTAL</h3>
+            </div>
+            <p className="text-[10px] font-mono text-green-400/70 mb-4 uppercase tracking-wider">Sem censura · Sem blur · Sem botões de bloqueio</p>
+
+            {dossieData.map((dossie, i) => (
+              <Card key={i} className={`border-${dossie.borderColor}-500/20 bg-[#0a0a0a] p-5 md:p-6`}>
+                <div className="flex items-start gap-3 mb-3">
+                  <div className="p-2 bg-green-500/10 rounded-lg shrink-0">
+                    <dossie.icon className="w-5 h-5 text-green-400" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-mono font-bold text-green-400 bg-green-500/10 px-2 py-0.5 rounded">{dossie.tag}</span>
+                    <h4 className="font-bold text-white text-base mt-1.5">{dossie.title}</h4>
+                  </div>
+                </div>
+                <p className="text-sm text-neutral-300 leading-relaxed">
+                  {dossie.content}
+                </p>
+              </Card>
+            ))}
+          </div>
+
           {/* Main CTA */}
           <Card className="border-green-500/20 bg-[#0a0f0a] p-5 md:p-6 shadow-xl">
             <div className="flex items-start gap-4 mb-4">
