@@ -1,11 +1,19 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { 
   LockOpen, Shield, Eye, AlertTriangle, FileText, Plane, Users, 
   MessageCircle, Clock, TrendingUp, CheckCircle2, Lock, Zap, Star, Loader2,
-  Flame, Globe, Crosshair, Skull, Newspaper
+  Flame, Globe, Crosshair, Skull, Newspaper, QrCode, CheckCheck
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -135,12 +143,22 @@ const Index = () => {
   const mentions = useAnimatedNumber(23);
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPixQR, setShowPixQR] = useState(false);
+  const navigate = useNavigate();
+  const isDev = import.meta.env.DEV;
 
   const handleCheckout = async () => {
     if (!email || !email.includes("@")) {
       toast.error("Digite um e-mail válido para receber o acesso.");
       return;
     }
+
+    // DEV MODE: show simulated PIX QR modal instead of redirecting to MercadoPago
+    if (isDev) {
+      setShowPixQR(true);
+      return;
+    }
+
     setLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke("create-preference", {
@@ -158,6 +176,43 @@ const Index = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  // Realtime listener: redirect to /obrigado as soon as this email's payment is approved
+  useEffect(() => {
+    if (!email || !email.includes("@")) return;
+
+    const channel = supabase
+      .channel(`payments-${email}`)
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "payments",
+          filter: `email=eq.${email}`,
+        },
+        (payload) => {
+          const status = (payload.new as { status?: string } | null)?.status;
+          if (status === "approved") {
+            sessionStorage.setItem("epstein_paid_email", email);
+            toast.success("Pagamento aprovado! Redirecionando...");
+            navigate(`/obrigado?external_reference=${encodeURIComponent(email)}&collection_status=approved`);
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [email, navigate]);
+
+  const simulateApproval = () => {
+    const fakeEmail = email && email.includes("@") ? email : "teste@dev.local";
+    sessionStorage.setItem("epstein_paid_email", fakeEmail);
+    toast.success("[DEV] Pagamento simulado aprovado.");
+    navigate(`/obrigado?external_reference=${encodeURIComponent(fakeEmail)}&collection_status=approved`);
   };
 
   // Countdown timer (resets every 24h)
@@ -319,6 +374,17 @@ const Index = () => {
               {loading ? "REDIRECIONANDO..." : "DESBLOQUEAR ACESSO IMEDIATO — R$ 4,99"}
             </Button>
           </div>
+          {isDev && (
+            <div className="max-w-md mx-auto mb-3">
+              <button
+                type="button"
+                onClick={simulateApproval}
+                className="text-[10px] font-mono text-muted-foreground/60 hover:text-terminal underline underline-offset-2 transition-colors"
+              >
+                [DEV] Simular Aprovação de PIX
+              </button>
+            </div>
+          )}
           <div className="flex flex-col items-center gap-1 mb-4">
             <p className="text-xs md:text-sm text-muted-foreground">
               <span className="text-terminal">✓</span> Acesso liberado automaticamente após o PIX
@@ -709,6 +775,44 @@ const Index = () => {
       </footer>
 
       <WhatsAppButton />
+
+      {/* DEV: Simulated PIX QR Code modal */}
+      <Dialog open={showPixQR} onOpenChange={setShowPixQR}>
+        <DialogContent className="bg-card border-terminal/40">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-terminal font-mono">
+              <QrCode className="w-5 h-5" />
+              PIX — Modo Simulação
+            </DialogTitle>
+            <DialogDescription className="text-xs text-muted-foreground">
+              Ambiente de desenvolvimento. Nenhuma cobrança real será efetuada.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex flex-col items-center gap-4 py-4">
+            <div className="w-56 h-56 bg-foreground/95 rounded-md flex items-center justify-center p-3">
+              <div className="w-full h-full grid grid-cols-12 grid-rows-12 gap-[2px]" aria-label="QR Code simulado">
+                {Array.from({ length: 144 }).map((_, i) => (
+                  <div key={i} className={(i * 37) % 7 < 3 ? "bg-background" : "bg-foreground"} />
+                ))}
+              </div>
+            </div>
+            <div className="text-center space-y-1">
+              <p className="text-sm font-mono text-foreground">R$ 4,99</p>
+              <p className="text-xs text-muted-foreground">{email}</p>
+            </div>
+            <Button
+              onClick={() => {
+                setShowPixQR(false);
+                simulateApproval();
+              }}
+              className="w-full bg-terminal hover:bg-terminal/90 text-terminal-foreground font-bold"
+            >
+              <CheckCheck className="w-4 h-4 mr-2" />
+              Simular Pagamento Aprovado
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
