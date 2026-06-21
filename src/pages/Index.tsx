@@ -374,6 +374,17 @@ const Index = () => {
               {loading ? "REDIRECIONANDO..." : "DESBLOQUEAR ACESSO IMEDIATO — R$ 4,99"}
             </Button>
           </div>
+          {isDev && (
+            <div className="max-w-md mx-auto mb-3">
+              <button
+                type="button"
+                onClick={simulateApproval}
+                className="text-[10px] font-mono text-muted-foreground/60 hover:text-terminal underline underline-offset-2 transition-colors"
+              >
+                [DEV] Simular Aprovação de PIX
+              </button>
+            </div>
+          )}
           <div className="flex flex-col items-center gap-1 mb-4">
             <p className="text-xs md:text-sm text-muted-foreground">
               <span className="text-terminal">✓</span> Acesso liberado automaticamente após o PIX
@@ -764,6 +775,44 @@ const Index = () => {
       </footer>
 
       <WhatsAppButton />
+
+      {/* DEV: Simulated PIX QR Code modal */}
+      <Dialog open={showPixQR} onOpenChange={setShowPixQR}>
+        <DialogContent className="bg-card border-terminal/40">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-terminal font-mono">
+              <QrCode className="w-5 h-5" />
+              PIX — Modo Simulação
+            </DialogTitle>
+            <DialogDescription className="text-xs text-muted-foreground">
+              Ambiente de desenvolvimento. Nenhuma cobrança real será efetuada.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex flex-col items-center gap-4 py-4">
+            <div className="w-56 h-56 bg-foreground/95 rounded-md flex items-center justify-center p-3">
+              <div className="w-full h-full grid grid-cols-12 grid-rows-12 gap-[2px]" aria-label="QR Code simulado">
+                {Array.from({ length: 144 }).map((_, i) => (
+                  <div key={i} className={(i * 37) % 7 < 3 ? "bg-background" : "bg-foreground"} />
+                ))}
+              </div>
+            </div>
+            <div className="text-center space-y-1">
+              <p className="text-sm font-mono text-foreground">R$ 4,99</p>
+              <p className="text-xs text-muted-foreground">{email}</p>
+            </div>
+            <Button
+              onClick={() => {
+                setShowPixQR(false);
+                simulateApproval();
+              }}
+              className="w-full bg-terminal hover:bg-terminal/90 text-terminal-foreground font-bold"
+            >
+              <CheckCheck className="w-4 h-4 mr-2" />
+              Simular Pagamento Aprovado
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
