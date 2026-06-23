@@ -175,13 +175,13 @@ const SecretDashboard = () => {
               <p className="text-sm text-muted-foreground mb-4">
                 Nossa equipe está traduzindo novos áudios agora. Acompanhe nos Stories.
               </p>
-              <a href="https://instagram.com/epstein.arquivos.oficial" target="_blank" rel="noopener noreferrer">
+              <a href="https://instagram.com/tvoculta" target="_blank" rel="noopener noreferrer">
                 <Button 
                   size="lg" 
                   className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 hover:from-purple-700 hover:via-pink-700 hover:to-orange-600 text-white font-bold w-full md:w-auto px-8"
                 >
                   <Instagram className="w-5 h-5 mr-2" />
-                  Seguir @epstein.arquivos.oficial
+                  Seguir @tvoculta
                 </Button>
               </a>
             </Card>
