@@ -1,7 +1,8 @@
 import { useEffect } from "react";
-import { CheckCircle2, Mail, Shield, ArrowRight, Database, Search, FileText, Lock, Sparkles, Globe, Flame, AlertTriangle, Skull, Crosshair, Zap, Radio, Unlock } from "lucide-react";
+import { CheckCircle2, Mail, Shield, ArrowRight, Database, Search, FileText, Lock, Sparkles, Unlock } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { dossiesGlobais, getIconForTag } from "@/data/dossiesGlobais";
 const ThankYou = () => {
   // Store email from URL params on mount
   useEffect(() => {
@@ -20,95 +21,6 @@ const ThankYou = () => {
     jefftube: "https://www.jefftube.net/"
   };
 
-
-  const crisisData = [
-    {
-      flag: "🏦", name: "Escândalo Banco Master & STF", tag: "DELAÇÃO", tagColor: "text-red-400",
-      detail: "Daniel Vorcaro preso. Celular revela ligações com ministros do STF (Dias Toffoli afastado da relatoria) e Congresso. Sistema financeiro e judiciário na mesma rede."
-    },
-    {
-      flag: "💻", name: "Ataque Hacker ao BTG Pactual", tag: "CIBERATAQUE", tagColor: "text-red-400",
-      detail: "R$ 100+ milhões drenados. PIX desligado temporariamente. A narrativa de segurança do dinheiro digital desmoronou."
-    },
-    {
-      flag: "🇺🇸🇮🇱", name: "EUA/Israel vs Irã — Ultimato", tag: "GUERRA ATIVA", tagColor: "text-red-400",
-      detail: "Trump deu ultimato de 48h ao Irã: reabrir o Estreito de Ormuz ou ter rede elétrica destruída. 20% do petróleo mundial em risco. Irã promete destruir infraestrutura americana no Golfo."
-    },
-    {
-      flag: "🇨🇺", name: "Cuba — Colapso Total", tag: "APAGÃO", tagColor: "text-red-400",
-      detail: "2º apagão nacional em uma semana. 11 milhões de pessoas no escuro. Bloqueio dos EUA + falência da infraestrutura estatal."
-    },
-    {
-      flag: "🇮🇷", name: "Irã — Retaliação Regional", tag: "ESCALADA", tagColor: "text-red-400",
-      detail: "Mísseis contra bases americanas no Golfo. Blecautes em Teerão por ataques israelenses. Um passo em falso e a economia global paralisa."
-    },
-    {
-      flag: "🇰🇼", name: "Kuwait — Alerta Máximo", tag: "ALERTA", tagColor: "text-yellow-400",
-      detail: "178 mísseis e 384 drones interceptados. Incidente de fogo amigo com jatos dos EUA."
-    },
-    {
-      flag: "🇫🇷", name: "França — Expansão Nuclear", tag: "NUCLEAR", tagColor: "text-yellow-400",
-      detail: "Macron: 'Quem quer ser livre tem que ser temido.' Maior expansão nuclear europeia desde a Guerra Fria."
-    },
-    {
-      flag: "🇺🇦", name: "Ucrânia vs Rússia", tag: "GUERRA ATIVA", tagColor: "text-red-400",
-      detail: "Oligarcas russos e ucranianos conectados à rede Epstein documentados nos arquivos."
-    },
-    {
-      flag: "🇸🇩", name: "Sudão — Guerra Civil", tag: "CRISE", tagColor: "text-yellow-400",
-      detail: "RSF vs Exército. Milhões deslocados. Tráfico de armas ligado a e-mails do dossiê."
-    },
-    {
-      flag: "🇵🇸", name: "Gaza — Conflito", tag: "MONITORANDO", tagColor: "text-yellow-400",
-      detail: "Reuniões com líderes de ambos os lados documentadas nos arquivos Epstein."
-    },
-    {
-      flag: "🇲🇲", name: "Myanmar — Guerra Civil", tag: "GUERRA ATIVA", tagColor: "text-red-400",
-      detail: "Tráfico humano na região conectado à rede."
-    },
-    {
-      flag: "🇳🇬", name: "Nigéria — Insurgência", tag: "TERRORISMO", tagColor: "text-red-400",
-      detail: "Boko Haram e ISWAP. Fluxos financeiros ilícitos documentados."
-    },
-    {
-      flag: "🇨🇩", name: "RD Congo — Conflito", tag: "GUERRA ATIVA", tagColor: "text-red-400",
-      detail: "Disputa por cobalto e coltan. Empresários do dossiê tinham interesses nesses minerais."
-    },
-    {
-      flag: "🇻🇪", name: "Venezuela — Operação EUA", tag: "INSTABILIDADE", tagColor: "text-yellow-400",
-      detail: "Maduro capturado. Conexões com lavagem de dinheiro nos documentos."
-    },
-  ];
-  const dossieData = [
-    {
-      icon: Shield,
-      borderColor: "green",
-      tag: "VITÓRIA CONTRA O SISTEMA",
-      title: "O Algoritmo Falhou.",
-      content: "A Justiça brasileira forçou a Meta a devolver o controle da página aos criadores após 54 dias de apagão forçado. O bloqueio automatizado foi derrubado por vias legais, expondo a falha no sistema de censura das Big Techs. As diretrizes ocultas não resistiram à ordem judicial."
-    },
-    {
-      icon: Database,
-      borderColor: "green",
-      tag: "ECONOMIA",
-      title: "A nova fase das CBDCs.",
-      content: "Documentos confidenciais revelam a implementação acelerada do dinheiro digital programável pelos bancos centrais. O objetivo principal não é a facilidade de transação, mas o rastreio absoluto. Pilotos em andamento mostram a capacidade de bloquear fundos instantaneamente caso o usuário não cumpra pontuações sociais."
-    },
-    {
-      icon: Globe,
-      borderColor: "green",
-      tag: "GEOPOLÍTICA",
-      title: "Tensões Globais e a Cortina de Fumaça.",
-      content: "Enquanto a mídia tradicional foca em escândalos locais, uma movimentação massiva de ativos e dados indica uma preparação para um colapso em cadeias de suprimentos estratégicas. Relatórios independentes apontam para um realinhamento de poder que afetará o acesso à internet e energia nos próximos 6 meses."
-    },
-    {
-      icon: FileText,
-      borderColor: "green",
-      tag: "ARQUIVO FOTOGRÁFICO",
-      title: "Foto #47: Reunião em Angra dos Reis com empresário brasileiro.",
-      content: "Relatório completo sobre o encontro à porta fechada no litoral do Rio de Janeiro. Os documentos detalham a articulação entre grandes empresários do setor de infraestrutura e agentes estrangeiros para a criação de redes de comunicação paralelas imunes a bloqueios estatais. As atas revelam o fluxo de capital e os acordos de blindagem digital firmados fora do radar público."
-    },
-  ];
 
   return (
     <div className="min-h-screen bg-[#050505] flex flex-col font-sans relative overflow-hidden">
@@ -154,32 +66,6 @@ const ThankYou = () => {
             <p className="text-sm text-blue-300/90">
               Uma cópia com todos os links também foi enviada para o seu e-mail. <strong className="text-blue-200">Verifique sua caixa de entrada.</strong>
             </p>
-          </div>
-
-          {/* DOSSIÊS DESTRANCADOS — ACESSO TOTAL */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 mb-1">
-              <Unlock className="w-5 h-5 text-green-400" />
-              <h3 className="font-bold text-white text-base">DOSSIÊS DESTRANCADOS — ACESSO TOTAL</h3>
-            </div>
-            <p className="text-[10px] font-mono text-green-400/70 mb-4 uppercase tracking-wider">Sem censura · Sem blur · Sem botões de bloqueio</p>
-
-            {dossieData.map((dossie, i) => (
-              <Card key={i} className={`border-${dossie.borderColor}-500/20 bg-[#0a0a0a] p-5 md:p-6`}>
-                <div className="flex items-start gap-3 mb-3">
-                  <div className="p-2 bg-green-500/10 rounded-lg shrink-0">
-                    <dossie.icon className="w-5 h-5 text-green-400" />
-                  </div>
-                  <div>
-                    <span className="text-[10px] font-mono font-bold text-green-400 bg-green-500/10 px-2 py-0.5 rounded">{dossie.tag}</span>
-                    <h4 className="font-bold text-white text-base mt-1.5">{dossie.title}</h4>
-                  </div>
-                </div>
-                <p className="text-sm text-neutral-300 leading-relaxed">
-                  {dossie.content}
-                </p>
-              </Card>
-            ))}
           </div>
 
           {/* Main CTA */}
@@ -241,45 +127,41 @@ const ThankYou = () => {
             </div>
           </Card>
 
-          {/* VAZAMENTO PRINCIPAL */}
-          <Card className="border-green-500/30 bg-gradient-to-r from-green-500/5 to-transparent p-5 md:p-6">
-            <div className="flex items-center gap-2 mb-3">
-              <FileText className="w-5 h-5 text-green-400" />
-              <span className="text-[10px] font-mono font-bold text-green-400 bg-green-500/10 px-2 py-0.5 rounded">📂 VAZAMENTO PRINCIPAL — STATUS: ATIVO</span>
-            </div>
-            <h3 className="font-bold text-white text-base mb-2">O Dossiê Epstein BR</h3>
-            <p className="text-sm text-neutral-400 mb-4">
-              A tradução bruta de mais de 5.000 páginas do processo original. Nomes da elite política e financeira com ligações à rede. O que a TV disse que não existia, nós publicamos.
-            </p>
-            <Button 
-              className="w-full bg-green-500 hover:bg-green-400 text-black font-bold"
-              onClick={() => window.open(links.traduzido, '_blank')}
-            >
-              Acessar Dossiê Completo <ArrowRight className="ml-2 w-4 h-4" />
-            </Button>
-          </Card>
-
-          {/* RADAR DE COLAPSO GLOBAL */}
-          <Card className="border-red-500/20 bg-[#0a0a0a] p-5 md:p-6">
+          {/* RADAR GLOBAL — 21 DOSSIÊS DESTRANCADOS */}
+          <Card className="border-green-500/20 bg-[#0a0a0a] p-5 md:p-6">
             <div className="flex items-center gap-2 mb-1">
-              <Radio className="w-5 h-5 text-red-400 animate-pulse" />
-              <h3 className="font-bold text-white text-base">🚨 RADAR DE COLAPSO GLOBAL</h3>
+              <Unlock className="w-5 h-5 text-green-400" />
+              <h3 className="font-bold text-white text-base">RADAR GLOBAL — 21 DOSSIÊS DESTRANCADOS</h3>
             </div>
-            <p className="text-[10px] font-mono text-red-400/70 mb-4 uppercase tracking-wider">Atualização em tempo real — Março/2026</p>
+            <p className="text-[10px] font-mono text-green-400/70 mb-5 uppercase tracking-wider">
+              Acesso total · Sem censura · Sem blur
+            </p>
 
-            <div className="grid gap-3">
-              {crisisData.map(({ flag, name, tag, tagColor, detail }, i) => (
-                <div key={i} className="flex items-start gap-3 p-3 bg-white/[0.02] rounded-lg border border-white/5 hover:border-red-500/20 transition-colors">
-                  <span className="text-lg shrink-0">{flag}</span>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="text-sm font-semibold text-white">{name}</span>
-                      <span className={`text-[10px] font-mono font-bold ${tagColor} shrink-0`}>{tag}</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {dossiesGlobais.map((item, i) => {
+                const Icon = getIconForTag(item.tag);
+                return (
+                  <div key={i} className="flex flex-col gap-3 p-4 bg-[#050505] rounded-lg border border-green-500/15 hover:border-green-500/40 transition-colors">
+                    <div className="flex items-center gap-2">
+                      <div className="p-1.5 bg-green-500/10 rounded shrink-0">
+                        <Icon className="w-4 h-4 text-green-400" />
+                      </div>
+                      <span className="text-[10px] font-mono font-bold text-green-400 bg-green-500/10 px-2 py-0.5 rounded">
+                        {item.tag}
+                      </span>
                     </div>
-                    <p className="text-xs text-neutral-500 mt-0.5">{detail}</p>
+                    <h4 className="font-bold text-white text-sm leading-snug">{item.title}</h4>
+                    <p className="text-xs text-neutral-300 leading-relaxed flex-1">{item.desc}</p>
+                    <Button
+                      className="w-full bg-green-500 hover:bg-green-400 text-black font-bold text-xs h-9 mt-1"
+                      onClick={() => window.open(item.url, '_blank', 'noopener,noreferrer')}
+                    >
+                      <Search className="w-3.5 h-3.5 mr-1.5" />
+                      INICIAR VARREDURA (Buscador Global)
+                    </Button>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </Card>
 

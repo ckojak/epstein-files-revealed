@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { dossiesGlobais, getIconForTag } from "@/data/dossiesGlobais";
 
 // Animated counter hook
 const useAnimatedNumber = (target: number, duration = 2000) => {
@@ -598,115 +599,48 @@ const Index = () => {
           <div className="flex items-center gap-3 mb-1">
             <Newspaper className="w-5 h-5 text-alert animate-pulse" />
             <h3 className="text-lg md:text-2xl font-bold text-foreground">
-              📰 NOTÍCIAS DE HOJE
+              🛰️ RADAR GLOBAL — DOSSIÊS CLASSIFICADOS
             </h3>
             <div className="flex-1 h-px bg-border" />
           </div>
           <p className="text-[10px] font-mono text-alert/70 mb-6 uppercase tracking-wider">
-            Atualização investigativa — Junho/2026
+            21 arquivos confidenciais · Descrições bloqueadas
           </p>
 
-          <div className="grid md:grid-cols-3 gap-4 mb-8">
-            {[
-              {
-                icon: Eye,
-                tag: "[VITÓRIA CONTRA O SISTEMA]",
-                tagClass: "text-terminal bg-terminal/10 border-terminal/30",
-                iconBg: "bg-terminal/10",
-                iconColor: "text-terminal",
-                title: "O Algoritmo Falhou: Como a Justiça brasileira forçou a Meta a devolver o controle aos criadores.",
-                subtitle: "Os bastidores do apagão de 54 dias e a queda do bloqueio automatizado.",
-              },
-              {
-                icon: TrendingUp,
-                tag: "[ECONOMIA]",
-                tagClass: "text-warning bg-warning/10 border-warning/30",
-                iconBg: "bg-warning/10",
-                iconColor: "text-warning",
-                title: "A nova fase das CBDCs: O que os governos não estão revelando sobre o rastreio financeiro.",
-                subtitle: "Documentos recentes mostram a implementação acelerada do dinheiro digital programável.",
-              },
-              {
-                icon: Globe,
-                tag: "[GEOPOLÍTICA]",
-                tagClass: "text-alert bg-alert/10 border-alert/30",
-                iconBg: "bg-alert/10",
-                iconColor: "text-alert",
-                title: "Tensões Globais e a Cortina de Fumaça: O que a mídia tradicional está a esconder esta semana.",
-                subtitle: "A movimentação de dados e ativos que indica uma mudança drástica no mercado mundial.",
-              },
-              {
-                icon: Flame,
-                tag: "[GUERRA]",
-                tagClass: "text-alert bg-alert/10 border-alert/30",
-                iconBg: "bg-alert/10",
-                iconColor: "text-alert",
-                title: "Acordo EUA–Irã de 14 pontos em risco: ataques de Israel no Líbano adiam assinatura na Suíça.",
-                subtitle: "Trump assinou cessar-fogo, mas confrontos no sul libanês reabrem o conflito (19/06/2026).",
-              },
-              {
-                icon: Crosshair,
-                tag: "[GUERRA]",
-                tagClass: "text-alert bg-alert/10 border-alert/30",
-                iconBg: "bg-alert/10",
-                iconColor: "text-alert",
-                title: "Drones atingem refinaria em Moscou: 555 abatidos pela Rússia, aeroporto fechado, Kiev bombardeada.",
-                subtitle: "Maior troca de ataques aéreos do ano. G7 discute novas sanções a Moscou (18/06/2026).",
-              },
-              {
-                icon: Star,
-                tag: "[COPA DO MUNDO 2026]",
-                tagClass: "text-warning bg-warning/10 border-warning/30",
-                iconBg: "bg-warning/10",
-                iconColor: "text-warning",
-                title: "Copa de Trump: ingressos extorsivos, vistos negados e Infantino acusado de servir à Casa Branca.",
-                subtitle: "FIFA enfrenta crise de credibilidade às vésperas da abertura nos EUA, Canadá e México.",
-              },
-              {
-                icon: Users,
-                tag: "[SELEÇÃO BRASILEIRA]",
-                tagClass: "text-warning bg-warning/10 border-warning/30",
-                iconBg: "bg-warning/10",
-                iconColor: "text-warning",
-                title: "Lobby por Neymar vira 'grande circo': deputado pressiona Ancelotti e atleta é cortado da lista.",
-                subtitle: "Bastidores das 48h que mantiveram o santista na convocação apesar da lesão grau 2.",
-              },
-              {
-                icon: AlertTriangle,
-                tag: "[CBF & PODER]",
-                tagClass: "text-warning bg-warning/10 border-warning/30",
-                iconBg: "bg-warning/10",
-                iconColor: "text-warning",
-                title: "Guerra política racha CBF no meio da Copa: Samir Xaud sob ataque e jejum de 24 anos pesa.",
-                subtitle: "Disputa interna pode explodir antes mesmo da estreia da seleção brasileira no mundial.",
-              },
-              {
-                icon: Zap,
-                tag: "[PETRÓLEO]",
-                tagClass: "text-terminal bg-terminal/10 border-terminal/30",
-                iconBg: "bg-terminal/10",
-                iconColor: "text-terminal",
-                title: "Estreito de Ormuz reaberto: Trump destrava 20% do petróleo mundial e segura o dólar.",
-                subtitle: "Acordo bilateral reorganiza o mapa energético global em tempo recorde.",
-              },
-            ].map(({ icon: Icon, tag, tagClass, iconBg, iconColor, title, subtitle }, i) => (
-              <Card key={i} className="border-border bg-card p-4 md:p-5 hover:border-alert/30 transition-all duration-300 flex flex-col gap-3">
-                <div className="flex items-center justify-between gap-2">
-                  <div className={`p-2 rounded-lg ${iconBg}`}>
-                    <Icon className={`w-4 h-4 ${iconColor}`} />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+            {dossiesGlobais.map((item, i) => {
+              const Icon = getIconForTag(item.tag);
+              return (
+                <Card
+                  key={i}
+                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                  className="border-border bg-card p-4 md:p-5 hover:border-alert/40 transition-all duration-300 flex flex-col gap-3 cursor-pointer group"
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="p-2 rounded-lg bg-alert/10">
+                      <Icon className="w-4 h-4 text-alert" />
+                    </div>
+                    <span className="text-[9px] md:text-[10px] font-mono font-bold uppercase tracking-wider border px-2 py-0.5 rounded text-alert bg-alert/10 border-alert/30">
+                      {item.tag}
+                    </span>
                   </div>
-                  <span className={`text-[9px] md:text-[10px] font-mono font-bold uppercase tracking-wider border px-2 py-0.5 rounded ${tagClass}`}>
-                    {tag}
-                  </span>
-                </div>
-                <h4 className="font-bold text-foreground text-sm md:text-base leading-snug">
-                  {title}
-                </h4>
-                <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
-                  {subtitle}
-                </p>
-              </Card>
-            ))}
+                  <h4 className="font-bold text-foreground text-sm md:text-base leading-snug">
+                    {item.title}
+                  </h4>
+                  <div className="relative">
+                    <p className="text-xs md:text-sm text-muted-foreground leading-relaxed blur-sm select-none pointer-events-none">
+                      {item.desc}
+                    </p>
+                    <div className="absolute inset-0 flex items-center justify-center bg-card/40 backdrop-blur-[1px] rounded">
+                      <div className="flex items-center gap-1.5 text-[10px] md:text-xs font-mono font-bold text-terminal bg-background/80 border border-terminal/40 px-2.5 py-1 rounded shadow-glow-green">
+                        <Lock className="w-3 h-3" />
+                        Desbloqueie por R$ 4,99
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              );
+            })}
           </div>
 
           <div className="text-center">

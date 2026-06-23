@@ -1,68 +1,91 @@
 ## Objetivo
-Atualizar o site com notícias globais frescas dos últimos 2 meses (Maio–Junho/2026), criar um bloco de destaque no TOPO da página convertendo curiosidade em compra, e substituir referências antigas (Março/2026, Jan/2026) por Junho/2026.
 
-## Escopo (somente `src/pages/Index.tsx`)
-Sem mexer em: Header, Hero, lógica de checkout (`handleCheckout`, R$ 4,99), TeaserCards do dossiê, Testemunhos, Footer, WhatsAppButton.
+Transformar o site num "Arquivo Vitalício Híbrido": preservar os links originais Epstein e adicionar um Radar Global de **21 dossiês** (vitrine borrada no `Index`, totalmente destravado no `ThankYou` com botão de varredura no Google).
 
-## 1. Novo bloco "BREAKING NEWS" no TOPO (logo após o Header, antes do Hero)
-Faixa de alta conversão com:
-- Selo pulsante "🔴 AO VIVO — ATUALIZAÇÕES DAS ÚLTIMAS 48H"
-- Manchete grande: **"O mundo está pegando fogo. E a mídia mostra 5%."**
-- Subheadline: "Guerras, Copa do Mundo, polêmicas globais, mercados em colapso — tudo conectado ao dossiê. Acesso completo por R$ 4,99."
-- Ticker horizontal (animado, scroll infinito) com 8 manchetes curtas piscando.
-- Mini-CTA: botão `DESBLOQUEAR NOTÍCIAS EXCLUSIVAS — R$ 4,99` que rola até o checkout.
+---
 
-## 2. Atualizar banners de data
-- Banner vermelho topo: trocar "Janeiro/2026" → "Junho/2026" + manchete "🔴 URGENTE: Acordo EUA-Irã em colapso após ataques no Líbano (19/06/2026)"
-- Status Badge Hero: "Documentos Recém-Liberados — Jan/2026" → "— Jun/2026"
-- Seção Notícias: "Junho/2026" (já está)
-- Seção Radar (se mantida): "Março/2026" → "Junho/2026"
+## Parte 1 — Fonte de dados
 
-## 3. Expandir seção "NOTÍCIAS DE HOJE" — de 3 para 9 cards
-Manter os 3 cards atuais e adicionar 6 novos baseados em pesquisa real (Folha, G1, BBC, DW, UOL, Agência Brasil, Bloomberg):
+**Criar `src/data/dossiesGlobais.ts`**
 
-```
-Card 4 — [GUERRA]
-"Acordo EUA-Irã de 14 pontos em risco: ataques de Israel no Líbano adiam assinatura na Suíça."
-Sub: Trump assinou cessar-fogo, mas confrontos no sul libanês reabrem o conflito (19/06/2026).
+- Exporta `dossiesGlobais` exatamente com os 21 itens fornecidos (`tag`, `title`, `desc`, `url`).
+- Exporta `tagIconMap: Record<string, LucideIcon>` mapeando cada tag a um ícone do `lucide-react`:
 
-Card 5 — [GUERRA]
-"Drones atingem refinaria em Moscou: 555 abatidos pela Rússia, aeroporto fechado, Kiev bombardeada."
-Sub: Maior troca de ataques aéreos do ano. G7 discute novas sanções (18/06/2026).
+| Tag | Ícone |
+|---|---|
+| CRISE NACIONAL | Landmark |
+| CLIMA | CloudFog |
+| ELITE | Gem |
+| PENTÁGONO | Plane |
+| ECONOMIA | Banknote |
+| VAZAMENTO | FileWarning |
+| TECNOLOGIA | ServerCrash |
+| SAÚDE | Syringe |
+| CENSURA | EyeOff |
+| SOCIOLOGIA | Building2 |
+| ANTÁRTIDA | Snowflake |
+| ALIMENTAÇÃO | Wheat |
+| INFRAESTRUTURA | Cable |
+| GEOPOLÍTICA | Globe |
+| ENERGIA | Atom |
+| BIOMETRIA | Dna |
+| HISTÓRIA | ScrollText |
+| MERCADO | Briefcase |
+| IA | BrainCircuit |
+| MÍDIA | Newspaper |
 
-Card 6 — [COPA DO MUNDO 2026]
-"Copa de Trump: ingressos extorsivos, vistos negados e Infantino acusado de servir à Casa Branca."
-Sub: FIFA enfrenta crise de credibilidade às vésperas da abertura nos EUA/Canadá/México.
+Helper `getIconForTag(tag)` que normaliza colchetes e retorna o ícone (fallback `AlertTriangle`).
 
-Card 7 — [SELEÇÃO BRASILEIRA]
-"Lobby por Neymar vira 'grande circo': deputado pressiona Ancelotti e atleta é cortado da lista."
-Sub: Bastidores das 48h que mantiveram o santista na convocação apesar da lesão grau 2.
+---
 
-Card 8 — [CBF & PODER]
-"Guerra política racha CBF no meio da Copa: Samir Xaud sob ataque e jejum de 24 anos pesa."
-Sub: Disputa interna pode explodir antes da estreia da seleção brasileira.
+## Parte 2 — Vitrine (`src/pages/Index.tsx`)
 
-Card 9 — [PETRÓLEO]
-"Estreito de Ormuz reaberto: Trump destrava 20% do petróleo mundial e segura o dólar."
-Sub: Acordo bilateral reorganiza o mapa energético global em tempo recorde.
-```
+Na seção **"NOTÍCIAS DE HOJE"** (linhas ~595-710):
 
-Cores semânticas das tags:
-- [GUERRA] → `text-alert` (vermelho)
-- [COPA DO MUNDO 2026] / [SELEÇÃO BRASILEIRA] → `text-warning` (amarelo)
-- [CBF & PODER] → `text-warning`
-- [PETRÓLEO] → `text-terminal` (verde)
+1. Importar `dossiesGlobais` e `getIconForTag`.
+2. Substituir o array inline atual de 9 itens pelo `dossiesGlobais.map(...)`.
+3. Grid responsivo: `grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4`.
+4. Cada card:
+   - Ícone (do mapa) + tag colorida + título **legíveis**.
+   - Descrição renderizada com `blur-sm select-none pointer-events-none`.
+   - Overlay absoluto sobre a descrição com cadeado (`Lock`) e texto **"🔒 Desbloqueie por R$ 4,99"**.
+   - Card inteiro clicável → `window.scrollTo({ top: 0, behavior: 'smooth' })` (mesmo comportamento dos CTAs existentes; não toca em `handleCheckout`).
+5. Atualizar subtítulo da seção para algo como "Radar Global — Dossiês Classificados".
 
-Layout: `grid md:grid-cols-3 gap-4` continua, agora com 9 itens em 3 linhas.
+Nada mais é alterado no `Index.tsx` (hero, checkout, PIX, prévias Epstein, depoimentos, etc. permanecem intactos).
 
-## 4. Atualizar Radar de Colapso Global (manter, refrescar data)
-Não recriar — a memória do projeto guarda esta narrativa. Só trocar "Março/2026" → "Junho/2026" no subtítulo da seção, sem alterar os 14 cards existentes.
+---
 
-## Estilo / Tom
-- Manter estética Terminal/Dark Mode, fontes `font-mono` em tags e timestamps.
-- Animações: `animate-pulse` no selo AO VIVO, ticker com `animate-marquee` (definir keyframes inline via Tailwind arbitrary se necessário — ou usar `animate-pulse-slow` já existente).
-- Linguagem investigativa, urgente, conectando cada manchete ao dossiê ("nomes que aparecem nos arquivos", "valores documentados", etc.).
+## Parte 3 — Área VIP (`src/pages/ThankYou.tsx`)
 
-## Verificação
-- Build compila sem erros.
-- Conferir visualmente: Breaking News no topo, 9 cards na seção de notícias, datas atualizadas para Junho/2026.
+1. **Remover** os blocos `RADAR DE COLAPSO GLOBAL` (e o array `crisisData`) e `VAZAMENTO PRINCIPAL — O Dossiê Epstein BR`.
+2. **Remover** o array antigo `dossieData` (4 itens) e sua seção "DOSSIÊS DESTRANCADOS — ACESSO TOTAL".
+3. **Preservar intactos**:
+   - Banner de sucesso, aviso de e-mail.
+   - Card "Dossiê Traduzido (PT-BR)" e CTA verde.
+   - Grid com **Google Drive Original** e **Buscador de E-mails (Jmail)**.
+   - Card "Fontes Adicionais" com **EpsteinFTA.com** e **JeffTube.net**.
+   - Bloco do Telegram e footer.
+4. **Logo após** o card "Fontes Adicionais", inserir nova seção **"RADAR GLOBAL — 21 DOSSIÊS DESTRANCADOS"**:
+   - Header com `Unlock` + título + linha mono "Acesso total · Sem censura · Sem blur".
+   - Grid `grid-cols-1 md:grid-cols-2 gap-4` mapeando `dossiesGlobais`.
+   - Cada card (`bg-[#0a0a0a] border-green-500/20 p-5`):
+     - Ícone (`getIconForTag`) + tag verde.
+     - `title` em destaque.
+     - `desc` totalmente legível.
+     - Botão verde **"INICIAR VARREDURA (Buscador Global)"** (ícone `Search`) → `window.open(item.url, '_blank', 'noopener,noreferrer')`.
+5. Imports adicionados: `dossiesGlobais`, `getIconForTag`, `Search`. Remover imports não usados (`Flame`, `AlertTriangle`, `Skull`, `Crosshair`, `Zap`, `Radio`) após a limpeza.
+
+---
+
+## Regras de preservação
+
+- Não tocar em `handleCheckout`, modal PIX, listener Realtime, botão DEV, rotas, Supabase client, webhook Mercado Pago ou edge functions.
+- Não alterar `index.css`, `tailwind.config.ts`, favicon, metadata.
+- Sem mudanças de schema, RLS ou backend.
+
+## Arquivos afetados
+
+- **Criar:** `src/data/dossiesGlobais.ts`
+- **Editar:** `src/pages/Index.tsx` (apenas seção "NOTÍCIAS DE HOJE")
+- **Editar:** `src/pages/ThankYou.tsx` (remoção dos 3 blocos antigos + injeção do novo grid abaixo das Fontes Adicionais)
