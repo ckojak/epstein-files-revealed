@@ -68,32 +68,6 @@ const ThankYou = () => {
             </p>
           </div>
 
-          {/* DOSSIÊS DESTRANCADOS — ACESSO TOTAL */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 mb-1">
-              <Unlock className="w-5 h-5 text-green-400" />
-              <h3 className="font-bold text-white text-base">DOSSIÊS DESTRANCADOS — ACESSO TOTAL</h3>
-            </div>
-            <p className="text-[10px] font-mono text-green-400/70 mb-4 uppercase tracking-wider">Sem censura · Sem blur · Sem botões de bloqueio</p>
-
-            {dossieData.map((dossie, i) => (
-              <Card key={i} className={`border-${dossie.borderColor}-500/20 bg-[#0a0a0a] p-5 md:p-6`}>
-                <div className="flex items-start gap-3 mb-3">
-                  <div className="p-2 bg-green-500/10 rounded-lg shrink-0">
-                    <dossie.icon className="w-5 h-5 text-green-400" />
-                  </div>
-                  <div>
-                    <span className="text-[10px] font-mono font-bold text-green-400 bg-green-500/10 px-2 py-0.5 rounded">{dossie.tag}</span>
-                    <h4 className="font-bold text-white text-base mt-1.5">{dossie.title}</h4>
-                  </div>
-                </div>
-                <p className="text-sm text-neutral-300 leading-relaxed">
-                  {dossie.content}
-                </p>
-              </Card>
-            ))}
-          </div>
-
           {/* Main CTA */}
           <Card className="border-green-500/20 bg-[#0a0f0a] p-5 md:p-6 shadow-xl">
             <div className="flex items-start gap-4 mb-4">
@@ -153,45 +127,41 @@ const ThankYou = () => {
             </div>
           </Card>
 
-          {/* VAZAMENTO PRINCIPAL */}
-          <Card className="border-green-500/30 bg-gradient-to-r from-green-500/5 to-transparent p-5 md:p-6">
-            <div className="flex items-center gap-2 mb-3">
-              <FileText className="w-5 h-5 text-green-400" />
-              <span className="text-[10px] font-mono font-bold text-green-400 bg-green-500/10 px-2 py-0.5 rounded">📂 VAZAMENTO PRINCIPAL — STATUS: ATIVO</span>
-            </div>
-            <h3 className="font-bold text-white text-base mb-2">O Dossiê Epstein BR</h3>
-            <p className="text-sm text-neutral-400 mb-4">
-              A tradução bruta de mais de 5.000 páginas do processo original. Nomes da elite política e financeira com ligações à rede. O que a TV disse que não existia, nós publicamos.
-            </p>
-            <Button 
-              className="w-full bg-green-500 hover:bg-green-400 text-black font-bold"
-              onClick={() => window.open(links.traduzido, '_blank')}
-            >
-              Acessar Dossiê Completo <ArrowRight className="ml-2 w-4 h-4" />
-            </Button>
-          </Card>
-
-          {/* RADAR DE COLAPSO GLOBAL */}
-          <Card className="border-red-500/20 bg-[#0a0a0a] p-5 md:p-6">
+          {/* RADAR GLOBAL — 21 DOSSIÊS DESTRANCADOS */}
+          <Card className="border-green-500/20 bg-[#0a0a0a] p-5 md:p-6">
             <div className="flex items-center gap-2 mb-1">
-              <Radio className="w-5 h-5 text-red-400 animate-pulse" />
-              <h3 className="font-bold text-white text-base">🚨 RADAR DE COLAPSO GLOBAL</h3>
+              <Unlock className="w-5 h-5 text-green-400" />
+              <h3 className="font-bold text-white text-base">RADAR GLOBAL — 21 DOSSIÊS DESTRANCADOS</h3>
             </div>
-            <p className="text-[10px] font-mono text-red-400/70 mb-4 uppercase tracking-wider">Atualização em tempo real — Março/2026</p>
+            <p className="text-[10px] font-mono text-green-400/70 mb-5 uppercase tracking-wider">
+              Acesso total · Sem censura · Sem blur
+            </p>
 
-            <div className="grid gap-3">
-              {crisisData.map(({ flag, name, tag, tagColor, detail }, i) => (
-                <div key={i} className="flex items-start gap-3 p-3 bg-white/[0.02] rounded-lg border border-white/5 hover:border-red-500/20 transition-colors">
-                  <span className="text-lg shrink-0">{flag}</span>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="text-sm font-semibold text-white">{name}</span>
-                      <span className={`text-[10px] font-mono font-bold ${tagColor} shrink-0`}>{tag}</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {dossiesGlobais.map((item, i) => {
+                const Icon = getIconForTag(item.tag);
+                return (
+                  <div key={i} className="flex flex-col gap-3 p-4 bg-[#050505] rounded-lg border border-green-500/15 hover:border-green-500/40 transition-colors">
+                    <div className="flex items-center gap-2">
+                      <div className="p-1.5 bg-green-500/10 rounded shrink-0">
+                        <Icon className="w-4 h-4 text-green-400" />
+                      </div>
+                      <span className="text-[10px] font-mono font-bold text-green-400 bg-green-500/10 px-2 py-0.5 rounded">
+                        {item.tag}
+                      </span>
                     </div>
-                    <p className="text-xs text-neutral-500 mt-0.5">{detail}</p>
+                    <h4 className="font-bold text-white text-sm leading-snug">{item.title}</h4>
+                    <p className="text-xs text-neutral-300 leading-relaxed flex-1">{item.desc}</p>
+                    <Button
+                      className="w-full bg-green-500 hover:bg-green-400 text-black font-bold text-xs h-9 mt-1"
+                      onClick={() => window.open(item.url, '_blank', 'noopener,noreferrer')}
+                    >
+                      <Search className="w-3.5 h-3.5 mr-1.5" />
+                      INICIAR VARREDURA (Buscador Global)
+                    </Button>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </Card>
 
