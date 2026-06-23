@@ -1,7 +1,8 @@
 import { useEffect } from "react";
-import { CheckCircle2, Mail, Shield, ArrowRight, Database, Search, FileText, Lock, Sparkles, Globe, Flame, AlertTriangle, Skull, Crosshair, Zap, Radio, Unlock } from "lucide-react";
+import { CheckCircle2, Mail, Shield, ArrowRight, Database, Search, FileText, Lock, Sparkles, Unlock } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { dossiesGlobais, getIconForTag } from "@/data/dossiesGlobais";
 const ThankYou = () => {
   // Store email from URL params on mount
   useEffect(() => {
