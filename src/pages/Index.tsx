@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { dossiesGlobais, getIconForTag } from "@/data/dossiesGlobais";
 
 // Animated counter hook
 const useAnimatedNumber = (target: number, duration = 2000) => {
