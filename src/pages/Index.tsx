@@ -604,7 +604,7 @@ const Index = () => {
             <div className="flex-1 h-px bg-border" />
           </div>
           <p className="text-[10px] font-mono text-alert/70 mb-6 uppercase tracking-wider">
-            21 arquivos confidenciais · Descrições bloqueadas
+            {dossiesGlobais.length} manchetes reais · Fontes verificadas · Descrições bloqueadas
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
@@ -627,6 +627,10 @@ const Index = () => {
                   <h4 className="font-bold text-foreground text-sm md:text-base leading-snug">
                     {item.title}
                   </h4>
+                  <div className="flex items-center justify-between text-[9px] md:text-[10px] font-mono text-muted-foreground/80">
+                    <span className="truncate max-w-[60%]">{item.source}</span>
+                    <span>{item.publishedAt}</span>
+                  </div>
                   <div className="relative">
                     <p className="text-xs md:text-sm text-muted-foreground leading-relaxed blur-sm select-none pointer-events-none">
                       {item.desc}
