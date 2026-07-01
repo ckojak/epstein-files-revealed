@@ -126,7 +126,7 @@ Deno.serve(async (req) => {
               <div style="background-color: #171717; border: 1px solid #22c55e; border-radius: 8px; padding: 24px;">
                 <p style="margin: 0 0 16px 0; font-size: 16px; color: #ffffff;">Olá!</p>
                 <p style="margin: 0 0 16px 0; font-size: 14px; color: #d4d4d4;">
-                  Seu pagamento de <strong style="color: #22c55e;">R$ 4,99</strong> foi confirmado.
+                  Seu pagamento de <strong style="color: #22c55e;">R$ 2,49</strong> foi confirmado.
                 </p>
                 <p style="margin: 0 0 16px 0; font-size: 14px; color: #d4d4d4;">
                   Conforme prometido, aqui está o link exclusivo para acessar os arquivos:
