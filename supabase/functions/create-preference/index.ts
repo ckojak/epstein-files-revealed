@@ -43,9 +43,9 @@ Deno.serve(async (req) => {
       body: JSON.stringify({
         items: [
           {
-            title: "Acesso ao Dossiê Secreto",
+            title: "Acesso ao Dossiê Secreto — Promo Junho",
             quantity: 1,
-            unit_price: 4.99,
+            unit_price: 2.49,
             currency_id: "BRL",
           },
         ],
