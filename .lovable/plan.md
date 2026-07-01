@@ -1,91 +1,71 @@
 ## Objetivo
 
-Transformar o site num "Arquivo Vitalício Híbrido": preservar os links originais Epstein e adicionar um Radar Global de **21 dossiês** (vitrine borrada no `Index`, totalmente destravado no `ThankYou` com botão de varredura no Google).
+Sanear o portal (manter só o eixo Epstein), substituir os 21 dossiês fictícios por notícias reais das últimas 24h com fonte oficial, e ativar promoção de R$ 2,49.
 
 ---
 
-## Parte 1 — Fonte de dados
+## Passo 1 — Saneamento
 
-**Criar `src/data/dossiesGlobais.ts`**
+**Preservar (eixo Epstein):**
+- `src/pages/ThankYou.tsx`: banner de sucesso, card "Dossiê Traduzido (PT-BR)", Google Drive, Jmail, EpsteinFTA, JeffTube, Telegram, footer.
+- `src/pages/Index.tsx`: hero, prévias Epstein, checkout, PIX, depoimentos, FAQ.
+- `src/pages/SecretDashboard.tsx`: mantido.
 
-- Exporta `dossiesGlobais` exatamente com os 21 itens fornecidos (`tag`, `title`, `desc`, `url`).
-- Exporta `tagIconMap: Record<string, LucideIcon>` mapeando cada tag a um ícone do `lucide-react`:
+**Remover / substituir:**
+- Conteúdo do array `dossiesGlobais` em `src/data/dossiesGlobais.ts` (os 21 itens genéricos "Antártida/CERN/Vaticano" etc. — não são fatos verificáveis) → substituído no Passo 2.
+- Qualquer referência residual a "crisisData" ou textos antigos que ainda estejam no `Index.tsx`/`ThankYou.tsx` fora do eixo Epstein.
 
-| Tag | Ícone |
-|---|---|
-| CRISE NACIONAL | Landmark |
-| CLIMA | CloudFog |
-| ELITE | Gem |
-| PENTÁGONO | Plane |
-| ECONOMIA | Banknote |
-| VAZAMENTO | FileWarning |
-| TECNOLOGIA | ServerCrash |
-| SAÚDE | Syringe |
-| CENSURA | EyeOff |
-| SOCIOLOGIA | Building2 |
-| ANTÁRTIDA | Snowflake |
-| ALIMENTAÇÃO | Wheat |
-| INFRAESTRUTURA | Cable |
-| GEOPOLÍTICA | Globe |
-| ENERGIA | Atom |
-| BIOMETRIA | Dna |
-| HISTÓRIA | ScrollText |
-| MERCADO | Briefcase |
-| IA | BrainCircuit |
-| MÍDIA | Newspaper |
-
-Helper `getIconForTag(tag)` que normaliza colchetes e retorna o ícone (fallback `AlertTriangle`).
+**Bug técnico Página 1 (pós-pagamento):** revisar `ThankYou.tsx` + `usePaymentVerification` — checar se o redirect do Mercado Pago (`collection_status=approved&external_reference=email`) está persistindo `sessionStorage` e liberando conteúdo sem tela branca/loop. Se houver `console.error` ou race condition, corrigir.
 
 ---
 
-## Parte 2 — Vitrine (`src/pages/Index.tsx`)
+## Passo 2 — OSINT ativo (notícias reais das últimas 24h)
 
-Na seção **"NOTÍCIAS DE HOJE"** (linhas ~595-710):
+Durante o build, executar `websearch--web_search` (categoria `news`, filtros temporais) em lotes paralelos cobrindo:
 
-1. Importar `dossiesGlobais` e `getIconForTag`.
-2. Substituir o array inline atual de 9 itens pelo `dossiesGlobais.map(...)`.
-3. Grid responsivo: `grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4`.
-4. Cada card:
-   - Ícone (do mapa) + tag colorida + título **legíveis**.
-   - Descrição renderizada com `blur-sm select-none pointer-events-none`.
-   - Overlay absoluto sobre a descrição com cadeado (`Lock`) e texto **"🔒 Desbloqueie por R$ 4,99"**.
-   - Card inteiro clicável → `window.scrollTo({ top: 0, behavior: 'smooth' })` (mesmo comportamento dos CTAs existentes; não toca em `handleCheckout`).
-5. Atualizar subtítulo da seção para algo como "Radar Global — Dossiês Classificados".
+- **Brasil / STF / Política / Bancos:** Globo, UOL, Folha, Estadão, Reuters BR.
+- **Guerras / Geopolítica:** Ucrânia-Rússia, Israel-Gaza-Líbano, Sudão, tensões Ásia-Pacífico — Reuters, AP, BBC, Al Jazeera.
+- **Escândalos financeiros e judiciais:** processos abertos, delações.
 
-Nada mais é alterado no `Index.tsx` (hero, checkout, PIX, prévias Epstein, depoimentos, etc. permanecem intactos).
+**Critérios (Regra de Ouro):**
+1. Fato central verificável — nada de especulação.
+2. `url` obrigatoriamente apontando para a matéria original no portal oficial (nunca Google search).
+3. Resumo executivo curto (2–3 linhas).
+4. Se não houver fonte oficial → item descartado.
 
----
+**Meta:** 15–21 itens reais. Cada um: `{ tag, title, desc, url, source, publishedAt }`.
 
-## Parte 3 — Área VIP (`src/pages/ThankYou.tsx`)
+**Arquivo:** reescrever `src/data/dossiesGlobais.ts` com o novo array + tags reajustadas (`[BRASIL]`, `[STF]`, `[GUERRA]`, `[ECONOMIA]`, `[GEOPOLÍTICA]`, etc.) e `tagIconMap` atualizado. Adicionar campo `source` exibido no card ("Fonte: Reuters · há 4h") e trocar botão para "LER MATÉRIA ORIGINAL".
 
-1. **Remover** os blocos `RADAR DE COLAPSO GLOBAL` (e o array `crisisData`) e `VAZAMENTO PRINCIPAL — O Dossiê Epstein BR`.
-2. **Remover** o array antigo `dossieData` (4 itens) e sua seção "DOSSIÊS DESTRANCADOS — ACESSO TOTAL".
-3. **Preservar intactos**:
-   - Banner de sucesso, aviso de e-mail.
-   - Card "Dossiê Traduzido (PT-BR)" e CTA verde.
-   - Grid com **Google Drive Original** e **Buscador de E-mails (Jmail)**.
-   - Card "Fontes Adicionais" com **EpsteinFTA.com** e **JeffTube.net**.
-   - Bloco do Telegram e footer.
-4. **Logo após** o card "Fontes Adicionais", inserir nova seção **"RADAR GLOBAL — 21 DOSSIÊS DESTRANCADOS"**:
-   - Header com `Unlock` + título + linha mono "Acesso total · Sem censura · Sem blur".
-   - Grid `grid-cols-1 md:grid-cols-2 gap-4` mapeando `dossiesGlobais`.
-   - Cada card (`bg-[#0a0a0a] border-green-500/20 p-5`):
-     - Ícone (`getIconForTag`) + tag verde.
-     - `title` em destaque.
-     - `desc` totalmente legível.
-     - Botão verde **"INICIAR VARREDURA (Buscador Global)"** (ícone `Search`) → `window.open(item.url, '_blank', 'noopener,noreferrer')`.
-5. Imports adicionados: `dossiesGlobais`, `getIconForTag`, `Search`. Remover imports não usados (`Flame`, `AlertTriangle`, `Skull`, `Crosshair`, `Zap`, `Radio`) após a limpeza.
+Consumidores (`Index.tsx` vitrine borrada e `ThankYou.tsx` grid destravado) permanecem funcionando — apenas o dataset muda.
 
 ---
 
-## Regras de preservação
+## Passo 3 — Promoção Junho (R$ 4,99 → R$ 2,49)
 
-- Não tocar em `handleCheckout`, modal PIX, listener Realtime, botão DEV, rotas, Supabase client, webhook Mercado Pago ou edge functions.
-- Não alterar `index.css`, `tailwind.config.ts`, favicon, metadata.
-- Sem mudanças de schema, RLS ou backend.
+Alterar em todos os pontos:
+
+- **Backend:** `supabase/functions/create-preference/index.ts` → `unit_price: 2.49`.
+- **Frontend:** todas as strings `R$ 4,99` / `4,99` / `4.99` em `Index.tsx` (hero, CTAs, checkout section, FAQ), `ThankYou.tsx`, overlay de blur dos cards → `R$ 2,49`.
+- Adicionar selo "PROMO JUNHO — de R$ 4,99 por R$ 2,49" no hero e no botão de checkout (preço riscado).
+- Redeploy da edge function `create-preference`.
+- Fluxo pós-pagamento: confirmar `back_urls.success = ${origin}/obrigado` + `auto_return: approved` continuam corretos → cliente cai direto no conteúdo destravado.
+
+---
+
+## Passo 4 — Log de status
+
+Ao final, reportar no chat:
+- ✅ Sistema Saneado (itens removidos / preservados)
+- ✅ Promoção Ativa (R$ 2,49 em X pontos)
+- ✅ Links Verificados (N notícias com fonte oficial, N descartadas)
+
+---
 
 ## Arquivos afetados
 
-- **Criar:** `src/data/dossiesGlobais.ts`
-- **Editar:** `src/pages/Index.tsx` (apenas seção "NOTÍCIAS DE HOJE")
-- **Editar:** `src/pages/ThankYou.tsx` (remoção dos 3 blocos antigos + injeção do novo grid abaixo das Fontes Adicionais)
+- **Editar:** `src/data/dossiesGlobais.ts` (reescrever com dados reais)
+- **Editar:** `src/pages/Index.tsx` (preço, selo promo, card layout com fonte)
+- **Editar:** `src/pages/ThankYou.tsx` (card layout com fonte, botão "Ler matéria original", limpeza residual, fix do bug se detectado)
+- **Editar:** `supabase/functions/create-preference/index.ts` (`unit_price: 2.49`) + redeploy
+- **Não tocar:** `handleCheckout`, webhook Mercado Pago, Supabase client, rotas, metadados/favicon, `index.css`, `tailwind.config.ts`.

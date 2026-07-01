@@ -276,7 +276,7 @@ const Index = () => {
           </h2>
           <p className="text-sm md:text-base text-muted-foreground text-center max-w-2xl mx-auto mb-5">
             Guerras, Copa do Mundo, polêmicas da FIFA, mercados em colapso, dossiês secretos —
-            tudo conectado. Acesso completo às notícias exclusivas e ao dossiê por <span className="text-terminal font-bold">R$ 4,99</span>.
+            tudo conectado. Acesso completo às notícias exclusivas e ao dossiê por <span className="text-terminal font-bold">R$ 2,49</span>.
           </p>
 
           {/* Ticker */}
@@ -314,7 +314,7 @@ const Index = () => {
               className="bg-terminal hover:bg-terminal/90 text-terminal-foreground font-bold px-6 md:px-10 py-6 shadow-glow-green animate-glow-green"
             >
               <LockOpen className="w-5 h-5 mr-2" />
-              DESBLOQUEAR NOTÍCIAS EXCLUSIVAS — R$ 4,99
+              DESBLOQUEAR NOTÍCIAS EXCLUSIVAS — R$ 2,49
             </Button>
           </div>
         </div>
@@ -372,7 +372,7 @@ const Index = () => {
               ) : (
                 <LockOpen className="w-5 h-5 mr-2" />
               )}
-              {loading ? "REDIRECIONANDO..." : "DESBLOQUEAR ACESSO IMEDIATO — R$ 4,99"}
+              {loading ? "REDIRECIONANDO..." : "DESBLOQUEAR ACESSO IMEDIATO — R$ 2,49"}
             </Button>
           </div>
           {isDev && (
@@ -464,7 +464,7 @@ const Index = () => {
             <h3 className="text-lg md:text-xl font-bold text-foreground">Prévia dos Documentos</h3>
             <div className="flex-1 h-px bg-border" />
           </div>
-          <p className="text-xs text-muted-foreground mb-6">Conteúdo borrado. Pague R$ 4,99 para desbloquear a versão completa.</p>
+          <p className="text-xs text-muted-foreground mb-6">Conteúdo borrado. Pague R$ 2,49 para desbloquear a versão completa.</p>
 
           <div className="grid gap-4 md:gap-6">
             <TeaserCard
@@ -514,7 +514,7 @@ const Index = () => {
               className="bg-terminal hover:bg-terminal/90 text-terminal-foreground font-bold px-8 py-6 shadow-glow-green animate-glow-green"
             >
               <LockOpen className="w-5 h-5 mr-2" />
-              DESBLOQUEAR TODOS OS DOCUMENTOS — R$ 4,99
+              DESBLOQUEAR TODOS OS DOCUMENTOS — R$ 2,49
             </Button>
             <p className="text-xs text-muted-foreground mt-3">
               Mais de <span className="text-foreground font-semibold">2.300 pessoas</span> já acessaram este dossiê
@@ -527,7 +527,7 @@ const Index = () => {
       <section className="py-12 md:py-16 px-4 bg-secondary/20 border-y border-border">
         <div className="container mx-auto max-w-4xl">
           <h3 className="text-lg md:text-2xl font-bold text-foreground text-center mb-8">
-            O que você recebe por <span className="text-terminal">R$ 4,99</span>
+            O que você recebe por <span className="text-terminal">R$ 2,49</span>
           </h3>
           <div className="grid md:grid-cols-2 gap-4">
             {[
@@ -563,7 +563,7 @@ const Index = () => {
               name="Camila S."
             />
             <TestimonialCard
-              text="R$ 4,99 por tudo isso? Achei que era golpe, mas o conteúdo é real e muito bem organizado."
+              text="R$ 2,49 por tudo isso? Achei que era golpe, mas o conteúdo é real e muito bem organizado."
               name="Diego L."
             />
           </div>
@@ -588,7 +588,7 @@ const Index = () => {
             className="bg-terminal hover:bg-terminal/90 text-terminal-foreground font-bold px-8 py-6 shadow-glow-green"
           >
             <LockOpen className="w-5 h-5 mr-2" />
-            LIBERAR ACESSO AO DOSSIÊ — R$ 4,99
+            LIBERAR ACESSO AO DOSSIÊ — R$ 2,49
           </Button>
         </div>
       </section>
@@ -604,7 +604,7 @@ const Index = () => {
             <div className="flex-1 h-px bg-border" />
           </div>
           <p className="text-[10px] font-mono text-alert/70 mb-6 uppercase tracking-wider">
-            21 arquivos confidenciais · Descrições bloqueadas
+            {dossiesGlobais.length} manchetes reais · Fontes verificadas · Descrições bloqueadas
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
@@ -627,6 +627,10 @@ const Index = () => {
                   <h4 className="font-bold text-foreground text-sm md:text-base leading-snug">
                     {item.title}
                   </h4>
+                  <div className="flex items-center justify-between text-[9px] md:text-[10px] font-mono text-muted-foreground/80">
+                    <span className="truncate max-w-[60%]">{item.source}</span>
+                    <span>{item.publishedAt}</span>
+                  </div>
                   <div className="relative">
                     <p className="text-xs md:text-sm text-muted-foreground leading-relaxed blur-sm select-none pointer-events-none">
                       {item.desc}
@@ -634,7 +638,7 @@ const Index = () => {
                     <div className="absolute inset-0 flex items-center justify-center bg-card/40 backdrop-blur-[1px] rounded">
                       <div className="flex items-center gap-1.5 text-[10px] md:text-xs font-mono font-bold text-terminal bg-background/80 border border-terminal/40 px-2.5 py-1 rounded shadow-glow-green">
                         <Lock className="w-3 h-3" />
-                        Desbloqueie por R$ 4,99
+                        Desbloqueie por R$ 2,49
                       </div>
                     </div>
                   </div>
@@ -654,7 +658,7 @@ const Index = () => {
               className="bg-alert hover:bg-alert/90 text-white font-bold px-8 py-6"
             >
               <Eye className="w-5 h-5 mr-2" />
-              VER TUDO NO DOSSIÊ — R$ 4,99
+              VER TUDO NO DOSSIÊ — R$ 2,49
             </Button>
           </div>
         </div>
@@ -694,7 +698,7 @@ const Index = () => {
             className="bg-terminal hover:bg-terminal/90 text-terminal-foreground font-bold text-base md:text-lg px-8 py-7 shadow-glow-green animate-glow-green transition-all hover:scale-105 w-full md:w-auto"
           >
             <LockOpen className="w-5 h-5 mr-2" />
-            LIBERAR ACESSO COMPLETO — R$ 4,99
+            LIBERAR ACESSO COMPLETO — R$ 2,49
           </Button>
         </div>
       </section>
@@ -731,7 +735,7 @@ const Index = () => {
               </div>
             </div>
             <div className="text-center space-y-1">
-              <p className="text-sm font-mono text-foreground">R$ 4,99</p>
+              <p className="text-sm font-mono text-foreground">R$ 2,49</p>
               <p className="text-xs text-muted-foreground">{email}</p>
             </div>
             <Button

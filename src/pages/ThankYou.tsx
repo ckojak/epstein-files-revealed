@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { CheckCircle2, Mail, Shield, ArrowRight, Database, Search, FileText, Lock, Sparkles, Unlock } from "lucide-react";
+import { CheckCircle2, Mail, Shield, ArrowRight, Database, Search, FileText, Lock, Sparkles, Unlock, ExternalLink } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { dossiesGlobais, getIconForTag } from "@/data/dossiesGlobais";
@@ -127,14 +127,14 @@ const ThankYou = () => {
             </div>
           </Card>
 
-          {/* RADAR GLOBAL — 21 DOSSIÊS DESTRANCADOS */}
+          {/* RADAR GLOBAL — DOSSIÊS DESTRANCADOS */}
           <Card className="border-green-500/20 bg-[#0a0a0a] p-5 md:p-6">
             <div className="flex items-center gap-2 mb-1">
               <Unlock className="w-5 h-5 text-green-400" />
-              <h3 className="font-bold text-white text-base">RADAR GLOBAL — 21 DOSSIÊS DESTRANCADOS</h3>
+              <h3 className="font-bold text-white text-base">RADAR GLOBAL — {dossiesGlobais.length} DOSSIÊS DESTRANCADOS</h3>
             </div>
             <p className="text-[10px] font-mono text-green-400/70 mb-5 uppercase tracking-wider">
-              Acesso total · Sem censura · Sem blur
+              Acesso total · Fontes verificadas · Links diretos para a matéria original
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -152,12 +152,16 @@ const ThankYou = () => {
                     </div>
                     <h4 className="font-bold text-white text-sm leading-snug">{item.title}</h4>
                     <p className="text-xs text-neutral-300 leading-relaxed flex-1">{item.desc}</p>
+                    <div className="flex items-center justify-between text-[10px] font-mono text-neutral-500 pt-1 border-t border-white/5">
+                      <span className="truncate">{item.source}</span>
+                      <span>{item.publishedAt}</span>
+                    </div>
                     <Button
                       className="w-full bg-green-500 hover:bg-green-400 text-black font-bold text-xs h-9 mt-1"
                       onClick={() => window.open(item.url, '_blank', 'noopener,noreferrer')}
                     >
-                      <Search className="w-3.5 h-3.5 mr-1.5" />
-                      INICIAR VARREDURA (Buscador Global)
+                      <ExternalLink className="w-3.5 h-3.5 mr-1.5" />
+                      LER MATÉRIA ORIGINAL
                     </Button>
                   </div>
                 );
