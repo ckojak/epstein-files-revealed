@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -10,13 +10,13 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { 
-  LockOpen, Shield, Eye, AlertTriangle, FileText, Plane, Users, 
-  MessageCircle, Clock, TrendingUp, CheckCircle2, Lock, Zap, Star, Loader2,
-  QrCode, CheckCheck
+import {
+  LockOpen, Eye, AlertTriangle, MessageCircle, Clock, Lock, Star, Loader2,
+  QrCode, CheckCheck, Radio, ExternalLink, Instagram, Flame, ArrowRight,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { useTopNews, formatViews, formatDateBR, type TopNewsItem } from "@/hooks/useTopNews";
 
 // Animated counter hook
 const useAnimatedNumber = (target: number, duration = 2000) => {
