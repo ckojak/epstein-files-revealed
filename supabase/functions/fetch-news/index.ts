@@ -64,7 +64,24 @@ async function parseFeed(feed: { url: string; source: string; tag: string }): Pr
       signal: AbortSignal.timeout(8000),
     });
     if (!res.ok) return [];
-    const xml = await res.text();
+    // detect charset (many BR feeds are ISO-8859-1 / windows-1252)
+    const buf = await res.arrayBuffer();
+    const ct = res.headers.get("content-type") ?? "";
+    let charset = "utf-8";
+    const m = ct.match(/charset=([^;]+)/i);
+    if (m) charset = m[1].trim().toLowerCase();
+    else {
+      const head = new TextDecoder("ascii").decode(buf.slice(0, 200));
+      const xm = head.match(/encoding=["']([^"']+)["']/i);
+      if (xm) charset = xm[1].toLowerCase();
+    }
+    if (charset === "iso-8859-1") charset = "windows-1252";
+    let xml: string;
+    try {
+      xml = new TextDecoder(charset).decode(buf);
+    } catch {
+      xml = new TextDecoder("utf-8").decode(buf);
+    }
     const items: NewsItem[] = [];
     const itemRe = /<item[\s\S]*?<\/item>/gi;
     const matches = xml.match(itemRe) ?? [];
