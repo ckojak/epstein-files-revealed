@@ -13,11 +13,10 @@ import {
 import { 
   LockOpen, Shield, Eye, AlertTriangle, FileText, Plane, Users, 
   MessageCircle, Clock, TrendingUp, CheckCircle2, Lock, Zap, Star, Loader2,
-  Flame, Globe, Crosshair, Skull, Newspaper, QrCode, CheckCheck
+  QrCode, CheckCheck
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { dossiesGlobais, getIconForTag } from "@/data/dossiesGlobais";
 
 // Animated counter hook
 const useAnimatedNumber = (target: number, duration = 2000) => {
@@ -237,15 +236,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Breaking News Banner */}
-      <div className="bg-alert/10 border-b border-alert/30 py-2 px-4 animate-pulse-slow">
-        <div className="container mx-auto text-center">
-          <span className="text-xs md:text-sm font-mono text-alert">
-            🔴 URGENTE (19/06/2026): Acordo EUA-Irã em colapso após ataques de Israel no Líbano
-          </span>
-        </div>
-      </div>
-
       {/* Header */}
       <header className="border-b border-border py-4 px-4">
         <div className="container mx-auto text-center">
@@ -256,69 +246,6 @@ const Index = () => {
           </h1>
         </div>
       </header>
-
-      {/* BREAKING NEWS — TOPO DE CONVERSÃO */}
-      <section className="bg-gradient-to-b from-alert/15 via-alert/5 to-transparent border-b border-alert/30 py-8 md:py-10 px-4">
-        <div className="container mx-auto max-w-4xl">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-alert opacity-75" />
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-alert" />
-            </span>
-            <span className="text-[10px] md:text-xs font-mono font-bold text-alert uppercase tracking-widest">
-              AO VIVO — Atualizações das últimas 48h
-            </span>
-          </div>
-
-          <h2 className="text-2xl md:text-4xl font-black text-center text-foreground leading-tight mb-3">
-            O mundo está <span className="text-alert">pegando fogo</span>.<br className="hidden md:block" />
-            E a mídia te mostra <span className="text-warning">5%</span>.
-          </h2>
-          <p className="text-sm md:text-base text-muted-foreground text-center max-w-2xl mx-auto mb-5">
-            Guerras, Copa do Mundo, polêmicas da FIFA, mercados em colapso, dossiês secretos —
-            tudo conectado. Acesso completo às notícias exclusivas e ao dossiê por <span className="text-terminal font-bold">R$ 2,49</span>.
-          </p>
-
-          {/* Ticker */}
-          <div className="relative overflow-hidden border-y border-alert/20 bg-background/50 py-2 mb-5">
-            <div className="flex gap-8 whitespace-nowrap animate-marquee">
-              {[
-                "🔴 Israel ataca sul do Líbano e adia assinatura do acordo na Suíça",
-                "⚡ 555 drones abatidos sobre a Rússia — refinaria de Moscou em chamas",
-                "🏆 Copa de Trump: FIFA acusada de servir à Casa Branca",
-                "🇧🇷 Neymar mantido na lista após lobby de deputado — Ancelotti cede",
-                "🛢️ Estreito de Ormuz reaberto destrava 20% do petróleo mundial",
-                "💰 CBDCs aceleram: dinheiro digital programável já em fase de testes",
-                "📉 G7 anuncia novas sanções a Moscou — Kremlin chama líderes de 'estúpidos'",
-                "🚨 Documentos Epstein-BR: novos nomes da elite vazam esta semana",
-                "🔴 Israel ataca sul do Líbano e adia assinatura do acordo na Suíça",
-                "⚡ 555 drones abatidos sobre a Rússia — refinaria de Moscou em chamas",
-                "🏆 Copa de Trump: FIFA acusada de servir à Casa Branca",
-                "🇧🇷 Neymar mantido na lista após lobby de deputado — Ancelotti cede",
-                "🛢️ Estreito de Ormuz reaberto destrava 20% do petróleo mundial",
-                "💰 CBDCs aceleram: dinheiro digital programável já em fase de testes",
-                "📉 G7 anuncia novas sanções a Moscou — Kremlin chama líderes de 'estúpidos'",
-                "🚨 Documentos Epstein-BR: novos nomes da elite vazam esta semana",
-              ].map((t, i) => (
-                <span key={i} className="text-xs md:text-sm font-mono text-foreground/80">
-                  {t}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex justify-center">
-            <Button
-              size="lg"
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="bg-terminal hover:bg-terminal/90 text-terminal-foreground font-bold px-6 md:px-10 py-6 shadow-glow-green animate-glow-green"
-            >
-              <LockOpen className="w-5 h-5 mr-2" />
-              DESBLOQUEAR NOTÍCIAS EXCLUSIVAS — R$ 2,49
-            </Button>
-          </div>
-        </div>
-      </section>
 
       {/* Hero Section */}
       <section className="py-12 md:py-20 px-4">
@@ -590,77 +517,6 @@ const Index = () => {
             <LockOpen className="w-5 h-5 mr-2" />
             LIBERAR ACESSO AO DOSSIÊ — R$ 2,49
           </Button>
-        </div>
-      </section>
-
-      {/* NOTÍCIAS DE HOJE */}
-      <section className="py-12 md:py-16 px-4 bg-alert/5 border-y border-alert/20">
-        <div className="container mx-auto max-w-4xl">
-          <div className="flex items-center gap-3 mb-1">
-            <Newspaper className="w-5 h-5 text-alert animate-pulse" />
-            <h3 className="text-lg md:text-2xl font-bold text-foreground">
-              🛰️ RADAR GLOBAL — DOSSIÊS CLASSIFICADOS
-            </h3>
-            <div className="flex-1 h-px bg-border" />
-          </div>
-          <p className="text-[10px] font-mono text-alert/70 mb-6 uppercase tracking-wider">
-            {dossiesGlobais.length} manchetes reais · Fontes verificadas · Descrições bloqueadas
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-            {dossiesGlobais.map((item, i) => {
-              const Icon = getIconForTag(item.tag);
-              return (
-                <Card
-                  key={i}
-                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                  className="border-border bg-card p-4 md:p-5 hover:border-alert/40 transition-all duration-300 flex flex-col gap-3 cursor-pointer group"
-                >
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="p-2 rounded-lg bg-alert/10">
-                      <Icon className="w-4 h-4 text-alert" />
-                    </div>
-                    <span className="text-[9px] md:text-[10px] font-mono font-bold uppercase tracking-wider border px-2 py-0.5 rounded text-alert bg-alert/10 border-alert/30">
-                      {item.tag}
-                    </span>
-                  </div>
-                  <h4 className="font-bold text-foreground text-sm md:text-base leading-snug">
-                    {item.title}
-                  </h4>
-                  <div className="flex items-center justify-between text-[9px] md:text-[10px] font-mono text-muted-foreground/80">
-                    <span className="truncate max-w-[60%]">{item.source}</span>
-                    <span>{item.publishedAt}</span>
-                  </div>
-                  <div className="relative">
-                    <p className="text-xs md:text-sm text-muted-foreground leading-relaxed blur-sm select-none pointer-events-none">
-                      {item.desc}
-                    </p>
-                    <div className="absolute inset-0 flex items-center justify-center bg-card/40 backdrop-blur-[1px] rounded">
-                      <div className="flex items-center gap-1.5 text-[10px] md:text-xs font-mono font-bold text-terminal bg-background/80 border border-terminal/40 px-2.5 py-1 rounded shadow-glow-green">
-                        <Lock className="w-3 h-3" />
-                        Desbloqueie por R$ 2,49
-                      </div>
-                    </div>
-                  </div>
-                </Card>
-              );
-            })}
-          </div>
-
-          <div className="text-center">
-            <p className="text-sm text-muted-foreground mb-4">
-              As conexões entre cada manchete estão <span className="text-foreground font-semibold">documentadas no dossiê</span>.
-              <span className="text-alert font-semibold"> Nomes, datas e valores</span> que a mídia silenciou.
-            </p>
-            <Button
-              size="lg"
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="bg-alert hover:bg-alert/90 text-white font-bold px-8 py-6"
-            >
-              <Eye className="w-5 h-5 mr-2" />
-              VER TUDO NO DOSSIÊ — R$ 2,49
-            </Button>
-          </div>
         </div>
       </section>
 
