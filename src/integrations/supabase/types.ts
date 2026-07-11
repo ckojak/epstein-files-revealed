@@ -32,6 +32,24 @@ export type Database = {
         }
         Relationships: []
       }
+      news_cache: {
+        Row: {
+          id: string
+          payload: Json
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          payload: Json
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          payload?: Json
+          updated_at?: string
+        }
+        Relationships: []
+      }
       payments: {
         Row: {
           amount: number
