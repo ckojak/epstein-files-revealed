@@ -1,9 +1,11 @@
 import { useEffect } from "react";
-import { CheckCircle2, Mail, Shield, ArrowRight, Database, Search, FileText, Lock, Sparkles, Unlock, ExternalLink } from "lucide-react";
+import { CheckCircle2, Mail, ArrowRight, Database, Search, FileText, Lock, Sparkles, Unlock, ExternalLink, Radio, Eye } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { dossiesGlobais, getIconForTag } from "@/data/dossiesGlobais";
+import { useTopNews, formatViews, formatDateBR } from "@/hooks/useTopNews";
 const ThankYou = () => {
+  const { data: news } = useTopNews();
+  const items = news?.items ?? [];
   // Store email from URL params on mount
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -30,12 +32,16 @@ const ThankYou = () => {
       </div>
 
       <header className="border-b border-white/5 py-4 px-4 bg-black/40 backdrop-blur-xl sticky top-0 z-50">
-        <div className="container mx-auto text-center">
-          <h1 className="text-xl md:text-2xl font-bold text-white flex items-center justify-center gap-2">
-            <Shield className="w-6 h-6 text-green-500" />
-            <span className="tracking-tight">ARQUIVOS CONFIDENCIAIS</span>
-            <span className="text-xl">🇧🇷</span>
-          </h1>
+        <div className="container mx-auto flex items-center justify-center gap-2">
+          <div className="w-8 h-8 rounded-md bg-green-500 flex items-center justify-center">
+            <Radio className="w-4 h-4 text-black" />
+          </div>
+          <div className="leading-tight">
+            <div className="text-base md:text-lg font-black text-white tracking-tight">TV OCULTA</div>
+            <div className="text-[9px] md:text-[10px] font-mono text-green-400/70 uppercase tracking-wider">
+              Área de assinante
+            </div>
+          </div>
         </div>
       </header>
 
@@ -127,45 +133,39 @@ const ThankYou = () => {
             </div>
           </Card>
 
-          {/* RADAR GLOBAL — DOSSIÊS DESTRANCADOS */}
+          {/* TOP 40 DESTRAVADA — feed real */}
           <Card className="border-green-500/20 bg-[#0a0a0a] p-5 md:p-6">
             <div className="flex items-center gap-2 mb-1">
               <Unlock className="w-5 h-5 text-green-400" />
-              <h3 className="font-bold text-white text-base">RADAR GLOBAL — {dossiesGlobais.length} DOSSIÊS DESTRANCADOS</h3>
+              <h3 className="font-bold text-white text-base">TOP 40 — NOTÍCIAS MUNDIAIS DESTRAVADAS</h3>
             </div>
             <p className="text-[10px] font-mono text-green-400/70 mb-5 uppercase tracking-wider">
-              Acesso total · Fontes verificadas · Links diretos para a matéria original
+              {items.length > 0 ? `${items.length} matérias · atualizado ${formatDateBR(news!.updatedAt)}` : "Carregando manchetes…"}
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {dossiesGlobais.map((item, i) => {
-                const Icon = getIconForTag(item.tag);
-                return (
-                  <div key={i} className="flex flex-col gap-3 p-4 bg-[#050505] rounded-lg border border-green-500/15 hover:border-green-500/40 transition-colors">
-                    <div className="flex items-center gap-2">
-                      <div className="p-1.5 bg-green-500/10 rounded shrink-0">
-                        <Icon className="w-4 h-4 text-green-400" />
-                      </div>
-                      <span className="text-[10px] font-mono font-bold text-green-400 bg-green-500/10 px-2 py-0.5 rounded">
-                        {item.tag}
-                      </span>
-                    </div>
-                    <h4 className="font-bold text-white text-sm leading-snug">{item.title}</h4>
-                    <p className="text-xs text-neutral-300 leading-relaxed flex-1">{item.desc}</p>
-                    <div className="flex items-center justify-between text-[10px] font-mono text-neutral-500 pt-1 border-t border-white/5">
-                      <span className="truncate">{item.source}</span>
-                      <span>{item.publishedAt}</span>
-                    </div>
-                    <Button
-                      className="w-full bg-green-500 hover:bg-green-400 text-black font-bold text-xs h-9 mt-1"
-                      onClick={() => window.open(item.url, '_blank', 'noopener,noreferrer')}
-                    >
-                      <ExternalLink className="w-3.5 h-3.5 mr-1.5" />
-                      LER MATÉRIA ORIGINAL
-                    </Button>
+              {items.map((item, i) => (
+                <div key={i} className="flex flex-col gap-3 p-4 bg-[#050505] rounded-lg border border-green-500/15 hover:border-green-500/40 transition-colors">
+                  <div className="flex items-center justify-between text-[10px] font-mono">
+                    <span className="px-2 py-0.5 rounded bg-green-500/10 text-green-400 font-bold uppercase tracking-wider truncate max-w-[60%]">
+                      {item.source}
+                    </span>
+                    <span className="text-neutral-500">{formatDateBR(item.publishedAt)}</span>
                   </div>
-                );
-              })}
+                  <h4 className="font-bold text-white text-sm leading-snug">{item.title}</h4>
+                  <p className="text-xs text-neutral-300 leading-relaxed flex-1">{item.description}</p>
+                  <div className="flex items-center justify-between text-[10px] font-mono text-neutral-500 pt-1 border-t border-white/5">
+                    <span className="flex items-center gap-1"><Eye className="w-3 h-3" /> {formatViews(item.views)}</span>
+                  </div>
+                  <Button
+                    className="w-full bg-green-500 hover:bg-green-400 text-black font-bold text-xs h-9 mt-1"
+                    onClick={() => window.open(item.url, '_blank', 'noopener,noreferrer')}
+                  >
+                    <ExternalLink className="w-3.5 h-3.5 mr-1.5" />
+                    LER MATÉRIA ORIGINAL
+                  </Button>
+                </div>
+              ))}
             </div>
           </Card>
 
@@ -180,7 +180,7 @@ const ThankYou = () => {
       </main>
 
       <footer className="py-6 text-center border-t border-white/5 relative z-10">
-        <p className="text-xs text-neutral-600">© 2026 Arquivos Brasil. Material Público (FOIA).</p>
+        <p className="text-xs text-neutral-600">© 2026 TV Oculta — Notícias Exclusivas Mundiais.</p>
       </footer>
     </div>
   );
