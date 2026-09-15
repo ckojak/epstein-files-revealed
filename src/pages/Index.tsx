@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import {
   LockOpen, Eye, MessageCircle, Clock, Lock, Star, Loader2, QrCode, CheckCheck,
-  Radio, ExternalLink, Instagram, ArrowRight, Newspaper, Globe, ShieldAlert, Users,
+  Radio, ExternalLink, Instagram, ArrowRight, Newspaper, Globe, ShieldAlert, Users, Gavel,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -217,6 +217,37 @@ const Index = () => {
         </div>
       </header>
 
+      {/* Caso Especial: Banco Master (topo) */}
+      <section className="py-8 md:py-10 px-4 bg-alert/10 border-b border-alert/30">
+        <div className="container mx-auto max-w-5xl">
+          <div className="flex items-center gap-2 mb-3">
+            <ShieldAlert className="w-5 h-5 text-alert" />
+            <span className="text-[10px] md:text-xs font-mono font-bold text-alert uppercase tracking-widest">
+              Assunto do momento · Dossiê completo
+            </span>
+          </div>
+          <div className="grid md:grid-cols-[1fr_auto] gap-6 items-center">
+            <div>
+              <h2 className="text-2xl md:text-4xl font-black text-foreground mb-2 tracking-tight">
+                Caso Banco Master: o dossiê completo, direto do STF
+              </h2>
+              <p className="text-sm md:text-base text-muted-foreground mb-4">
+                Os 53 processos que o STF liberou o sigilo, a prisão de Daniel Vorcaro e o julgamento desta semana — tudo organizado, com fonte, sem juridiquês.
+              </p>
+              <div className="flex flex-wrap gap-3 text-[11px] font-mono text-muted-foreground">
+                <span className="flex items-center gap-1"><Gavel className="w-3.5 h-3.5 text-terminal" /> 53 processos liberados</span>
+                <span className="flex items-center gap-1"><Globe className="w-3.5 h-3.5 text-terminal" /> Fontes: STF + imprensa</span>
+              </div>
+            </div>
+            <Link to="/banco-master" className="block shrink-0">
+              <Button size="lg" className="bg-alert hover:bg-alert/90 text-white font-bold px-6 py-6 w-full md:w-auto">
+                Ver dossiê Banco Master <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* AO VIVO bar */}
       <div className="bg-alert/5 border-b border-alert/20 py-2 px-4">
         <div className="container mx-auto max-w-6xl flex items-center justify-between gap-3">
@@ -250,7 +281,6 @@ const Index = () => {
             </p>
           </div>
 
-          {/* 3 open cards */}
           {newsLoading ? (
             <div className="grid md:grid-cols-3 gap-4 md:gap-5">
               {[0,1,2].map((i) => (
@@ -473,6 +503,8 @@ const Index = () => {
             <a href="https://www.threads.net/@tvoculta" target="_blank" rel="noopener noreferrer" className="hover:text-terminal transition-colors">Threads</a>
             <span>·</span>
             <Link to="/epstein" className="hover:text-terminal transition-colors">Dossiê Epstein</Link>
+            <span>·</span>
+            <Link to="/banco-master" className="hover:text-terminal transition-colors">Dossiê Banco Master</Link>
           </div>
           <p className="text-[10px] text-muted-foreground">
             © 2026 TV Oculta — Notícias Exclusivas Mundiais. Manchetes agregadas dos portais oficiais com link para a fonte original.
